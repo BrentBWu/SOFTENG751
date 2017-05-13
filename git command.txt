@@ -1,0 +1,13 @@
+创建分支
+git checkout -b wireframe
+
+Commit流程
+git add .
+git commit -m ""
+git remote -v
+git push -u origin master
+
+回溯
+git reset --hard 1e16049
+删除历史记录
+git push origin HEAD --force
