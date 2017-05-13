@@ -1,0 +1,54 @@
+git config --global user.name "Jeff Mu"
+git config --global user.email "jeffmc196@gmail.com"
+git config user.name "Mincheng Mu"
+
+..............
+git clone https://github.com/azho472/GoogleChromeFileExplorer.git
+
+git add .
+git commit -m "Add task slot in processor"
+git remote -v
+git push -u origin dragAndDrop
+
+git checkout -b wireframe
+
+Remove history
+git reset --hard 1e16049
+git push origin HEAD --force
+
+http://terus.jp/knockoutdraw/edit.html?k=acb93fda5da45cc52be5d7c652a22006
+
+t823406@spark.co.nz
+
+
+
+git branch -d wireframe
+git push origin --delete feature/pause_button
+
+git config --global user.email mmu119@aucklanduni.ac.nz
+git config --global user.name Jeff Mu
+git config --global push.default simple
+git config --global merge.conflictstyle diff3
+git config --global core.safecrlf true
+git config --global core.eol crlf
+git config --global core.autocrlf input
+
+git diff --stat 9a5a9 58de4
+
+17
+9¡¡13
+git diff
+
+git add.
+git diff --staged
+
+git commit
+git diff HEAD~1 HEAD
+
+git reset --hard HEAD
+git clean -f
+git pull
+6.264605
+
+plop
+fish

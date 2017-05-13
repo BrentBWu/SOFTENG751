@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;  
 using UnityEngine;
 
 public class TaskPool : MonoBehaviour {
@@ -13,15 +14,31 @@ public class TaskPool : MonoBehaviour {
 		public GameObject[] tasks;
 	}
 
-	public TaskPack[] taskPacks;
+	private List<TaskPack> taskPacks;
+	public TextAsset[] dictionaryTasks;
+	private string wholeFile;
+	private List<string> eachLine;
 
-	// Use this for initialization
-	void Start () {
+	void Start(){
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	void LoadTask(int textIndex){
+		TaskPack pack = new TaskPack ();
+		wholeFile = dictionaryTasks[textIndex].text;
+
+		eachLine = new List<string> ();
+		eachLine.AddRange (wholeFile.Split ("\n" [0]));
+
+		for (int i = 0; i < eachLine.Count; i++) {
+			//eachLine [i].Split (" ");
+			Task task = new Task ();
+			//task.name = 
+			//task.weight = 
+			//task.communicationTime = 
+			//task.taskColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+		}
 	}
+
+
 }
