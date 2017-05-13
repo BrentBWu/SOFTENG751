@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler {
+	public bool isTaskPool;
 
 	public GameObject item{
 		get{ 
@@ -19,9 +20,9 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 	public void OnDrop (PointerEventData eventData)
 	{
-		//if (!item) {
+		if (!item || isTaskPool) {
 			DragHandler.itemBeingDragged.transform.SetParent (transform);
-		//}
+		}
 	}
 
 	#endregion
