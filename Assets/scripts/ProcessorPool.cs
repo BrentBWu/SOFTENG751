@@ -10,7 +10,7 @@ public class ProcessorPool : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		for (int i = 0; i < processorNumer; i++) {
-			Instantiate (proccessor).transform.parent = this.transform;
+			Instantiate (proccessor).transform.SetParent (this.transform);
 		}
 	}
 
@@ -26,5 +26,7 @@ public class ProcessorPool : MonoBehaviour {
 
 		return Mathf.Max (processorTimes);
 	}
+
+
 
 }
