@@ -13,6 +13,8 @@ public class Task : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.GetComponent<Image> ().color = taskColor;
+		this.transform.GetChild (0).GetComponent<Text> ().text = taskName;
+		transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, weight * 10);
 	}
 	
 	public void addDependence(string name, int weight){
@@ -20,6 +22,14 @@ public class Task : MonoBehaviour {
 		dep.name = name;
 		dep.weight = weight;
 		dependencies.Add (dep);
+	}
+
+	public string getDependenceList(){
+		string dep = "";
+		foreach (Dependence d in dependencies) {
+			dep += " " + d.name;
+		}
+		return dep;
 	}
 
 	class Dependence{

@@ -35,7 +35,6 @@ public class TaskPool : MonoBehaviour {
 				t.taskColor = Random.ColorHSV (0f, 1f, 1f, 1f, 0.5f, 1f);
 				taskSet.Add (t);
 			} else if (taskType.Length == 4) {
-				Debug.Log (taskType[2]);
 				foreach (Task t in taskSet) {
 					if (t.taskName == taskType [2]) {
 						t.addDependence (taskType [0], int.Parse (taskInfo.Replace ("Weight=", "")));

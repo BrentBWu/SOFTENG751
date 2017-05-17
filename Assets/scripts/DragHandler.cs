@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 	public static GameObject itemBeingDragged;
@@ -15,8 +16,11 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		startPos = transform.position;
 		startParent = transform.parent;
 		GetComponent<CanvasGroup> ().blocksRaycasts = false;
-		Debug.Log ("On drag");
-		Debug.Log (itemBeingDragged.name );
+
+		//Display Task info
+		GameObject.Find ("TaskName").GetComponent<Text> ().text = "Task: " + transform.GetComponent<Task> ().taskName;
+		GameObject.Find ("Weight").GetComponent<Text> ().text = "Weight: " + transform.GetComponent<Task> ().weight;
+		GameObject.Find ("DependsOn").GetComponent<Text> ().text = "Depends on: " + transform.GetComponent<Task> ().getDependenceList();
 	}
 	#endregion
 
@@ -33,7 +37,6 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
-		Debug.Log ("End drag");
 		itemBeingDragged = null;
 		GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		if (transform.parent == startParent) {
