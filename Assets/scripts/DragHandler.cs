@@ -8,6 +8,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	public static GameObject itemBeingDragged;
 	Vector3 startPos;
 	Transform startParent;
+	public Slot taskSlot;
 
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
@@ -21,6 +22,14 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		GameObject.Find ("TaskName").GetComponent<Text> ().text = "Task: " + transform.GetComponent<Task> ().taskName;
 		GameObject.Find ("Weight").GetComponent<Text> ().text = "Weight: " + transform.GetComponent<Task> ().weight;
 		GameObject.Find ("DependsOn").GetComponent<Text> ().text = "Depends on: " + transform.GetComponent<Task> ().getDependenceList();
+
+		//Instantiate slots in processor
+		foreach (GameObject processor in GameObject.FindGameObjectsWithTag("Processor")) {
+			Slot slot = Slot.Instantiate (taskSlot);
+			slot.transform.SetParent(processor.transform);
+			slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, transform.GetComponent<Task> ().weight * 10);
+			slot.transform.SetAsFirstSibling();
+		}
 	}
 	#endregion
 
@@ -41,6 +50,13 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		if (transform.parent == startParent) {
 			transform.position = startPos;
+		}
+
+		//Destroy unused slot
+		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
+			if(slot.transform.childCount == 0){
+				Destroy (slot);
+			}
 		}
 
 	}
