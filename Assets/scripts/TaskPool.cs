@@ -8,6 +8,7 @@ public class TaskPool : MonoBehaviour {
 	private string wholeFile;
 	private List<string> eachLine;
 	public Task task;
+	private List<Task> taskSet = new List<Task> ();
 
 	void Start(){
 		LoadTask (0);
@@ -24,23 +25,26 @@ public class TaskPool : MonoBehaviour {
 			string taskName = eachLine [i].Split ('[', ']') [0];
 			string taskInfo = eachLine [i].Split ('[', ']') [1];
 			string[] taskType = taskName.Split (' ');
-			Debug.Log (taskInfo.Replace("Weight=",""));
 
+			//Add Task or dependence
 			if (taskType.Length == 2) {
 				Task t = Task.Instantiate (task);
-				t.transform.SetParent(this.transform);
+				t.transform.SetParent (this.transform);
+				t.taskName = taskType[0];
 				t.weight = int.Parse (taskInfo.Replace ("Weight=", ""));
-				t.taskColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-				//t.weight = 
-			}else if(taskType.Length == 4){
-				
+				t.taskColor = Random.ColorHSV (0f, 1f, 1f, 1f, 0.5f, 1f);
+				taskSet.Add (t);
+			} else if (taskType.Length == 4) {
+				Debug.Log (taskType[2]);
+				foreach (Task t in taskSet) {
+					if (t.taskName == taskType [2]) {
+						t.addDependence (taskType [0], int.Parse (taskInfo.Replace ("Weight=", "")));
+						break;
+					}
+				}
 			}
-			//eachLine [i].Split (" ");
-			//Task task = new Task ();
-			//task.name = 
-			//task.weight = 
-			//task.communicationTime = 
-			//task.taskColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+				
+
 		}
 	}
 

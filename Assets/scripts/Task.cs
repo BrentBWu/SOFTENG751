@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class Task : MonoBehaviour {
 
+	public string taskName;
 	public int weight;
-	public GameObject[] dependencies;
-	public int communicationTime;
+	private List<Dependence> dependencies = new List<Dependence>();
 	public Color32 taskColor;
 
 	// Use this for initialization
@@ -15,8 +15,17 @@ public class Task : MonoBehaviour {
 		this.GetComponent<Image> ().color = taskColor;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	public void addDependence(string name, int weight){
+		Dependence dep = new Dependence ();
+		dep.name = name;
+		dep.weight = weight;
+		dependencies.Add (dep);
 	}
+
+	class Dependence{
+		public string name;
+		public int weight;
+	}
+
+
 }
