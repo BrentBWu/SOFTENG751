@@ -23,8 +23,16 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		GameObject.Find ("Weight").GetComponent<Text> ().text = "Weight: " + transform.GetComponent<Task> ().weight;
 		GameObject.Find ("DependsOn").GetComponent<Text> ().text = "Depends on:\n " + transform.GetComponent<Task> ().getDependenceList();
 		Debug.Log (transform.parent.transform.parent.name);
-		//Instantiate slots in processor
+
+		//Check Dependency
+
+
+
+
 		foreach (GameObject processor in GameObject.FindGameObjectsWithTag("Processor")) {
+			//Instantiate duration
+
+			//Instantiate slots in processor
 			bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
 			bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
 			if (isTaskSlot || !isTaskpool) {
@@ -33,6 +41,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 				slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, transform.GetComponent<Task> ().weight * 10);
 				slot.transform.SetAsFirstSibling();
 			}
+
 
 		}
 	}
@@ -61,6 +70,22 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
 			if(slot.transform.childCount == 0){
 				Destroy (slot);
+			}
+		}
+
+		//Destroy unused duration
+		foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
+			if (dur.transform.GetSiblingIndex() == 0) {
+				Destroy (dur);
+			}
+		}
+
+		//Set slot lock
+		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
+			if (slot.transform.GetSiblingIndex () == 0) {
+				slot.GetComponent<Slot> ().active = true;
+			} else {
+				slot.GetComponent<Slot> ().active = false;
 			}
 		}
 
