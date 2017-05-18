@@ -21,14 +21,19 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		//Display Task info
 		GameObject.Find ("TaskName").GetComponent<Text> ().text = "Task: " + transform.GetComponent<Task> ().taskName;
 		GameObject.Find ("Weight").GetComponent<Text> ().text = "Weight: " + transform.GetComponent<Task> ().weight;
-		GameObject.Find ("DependsOn").GetComponent<Text> ().text = "Depends on: " + transform.GetComponent<Task> ().getDependenceList();
-
+		GameObject.Find ("DependsOn").GetComponent<Text> ().text = "Depends on:\n " + transform.GetComponent<Task> ().getDependenceList();
+		Debug.Log (transform.parent.transform.parent.name);
 		//Instantiate slots in processor
 		foreach (GameObject processor in GameObject.FindGameObjectsWithTag("Processor")) {
-			Slot slot = Slot.Instantiate (taskSlot);
-			slot.transform.SetParent(processor.transform);
-			slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, transform.GetComponent<Task> ().weight * 10);
-			slot.transform.SetAsFirstSibling();
+			bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
+			bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
+			if (isTaskSlot || !isTaskpool) {
+				Slot slot = Slot.Instantiate (taskSlot);
+				slot.transform.SetParent(processor.transform);
+				slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, transform.GetComponent<Task> ().weight * 10);
+				slot.transform.SetAsFirstSibling();
+			}
+
 		}
 	}
 	#endregion

@@ -27,7 +27,7 @@ public class Task : MonoBehaviour {
 	public string getDependenceList(){
 		string dep = "";
 		foreach (Dependence d in dependencies) {
-			dep += " " + d.name;
+			dep += "\n" + d.name + " (Transfer Time:" + d.weight + ")";
 		}
 		return dep;
 	}

@@ -5,6 +5,11 @@ using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler {
 	public bool isTaskPool;
+	private bool active;
+
+	void Start(){
+		active = true;
+	}
 
 	public GameObject item{
 		get{ 
