@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuToIndex : MonoBehaviour
@@ -24,6 +25,6 @@ public class MenuToIndex : MonoBehaviour
 
     public void GoNextScene(GameObject NScene)
     {
-        Application.LoadLevel("Index");
+        SceneManager.LoadScene("Index");
     }
 }
