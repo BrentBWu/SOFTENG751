@@ -7,7 +7,8 @@ public class Task : MonoBehaviour {
 
 	public string taskName;
 	public int weight;
-	private List<Dependence> dependencies = new List<Dependence>();
+	public string dependenceName;
+	public int dependenceWeight;
 	public Color32 taskColor;
 
 	// Use this for initialization
@@ -18,23 +19,13 @@ public class Task : MonoBehaviour {
 	}
 	
 	public void addDependence(string name, int weight){
-		Dependence dep = new Dependence ();
-		dep.name = name;
-		dep.weight = weight;
-		dependencies.Add (dep);
+		dependenceName = name;
+		dependenceWeight = weight;
 	}
 
 	public string getDependenceList(){
-		string dep = "";
-		foreach (Dependence d in dependencies) {
-			dep += "\n" + d.name + " (Transfer Time:" + d.weight + ")";
-		}
+		string dep = "\n" + dependenceName + " (Transfer Time:" + dependenceWeight + ")";
 		return dep;
-	}
-
-	class Dependence{
-		public string name;
-		public int weight;
 	}
 
 

@@ -21,6 +21,10 @@ public class Slot : MonoBehaviour, IDropHandler {
 		}
 	}
 
+	public void lockSlot(bool lockSlot){
+		active = lockSlot;
+	}
+
 	#region IDropHandler implementation
 
 	public void OnDrop (PointerEventData eventData)
