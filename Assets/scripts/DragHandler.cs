@@ -51,7 +51,10 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		transform.position = Input.mousePosition;
+		if (checkDependence ()) {
+			transform.position = Input.mousePosition;
+		}
+
 	}
 
 	#endregion
@@ -92,4 +95,12 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	}
 
 	#endregion
+
+	private bool checkDependence(){
+		/*if(transform.GetComponent<Task>().)
+		foreach (GameObject task in GameObject.FindGameObjectsWithTag("Task")) {
+			
+		}*/
+		return true;
+	}
 }
