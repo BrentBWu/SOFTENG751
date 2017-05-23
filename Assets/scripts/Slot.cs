@@ -6,9 +6,11 @@ using UnityEngine.EventSystems;
 public class Slot : MonoBehaviour, IDropHandler {
 	public bool isTaskPool;
 	public bool active;
+	public bool depFree;
 
 	void Start(){
 		active = true;
+		depFree = true;
 	}
 
 	public GameObject item{
@@ -29,8 +31,21 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 	public void OnDrop (PointerEventData eventData)
 	{
-		if (!item || isTaskPool) {
+		if (!item && !isTaskPool) {
 			DragHandler.itemBeingDragged.transform.SetParent (transform);
+			foreach (GameObject task in GameObject.FindGameObjectsWithTag("Task")) {
+				if (task.GetComponent<Task>().taskName.Trim() == DragHandler.itemBeingDragged.transform.GetComponent<Task> ().dependenceName) {
+					task.transform.parent.GetComponent<Slot> ().depFree = false;
+				}
+			}
+		}else if(isTaskPool){
+			DragHandler.itemBeingDragged.transform.SetParent (transform);
+
+			foreach (GameObject task in GameObject.FindGameObjectsWithTag("Task")) {
+				if (task.GetComponent<Task>().taskName.Trim() == DragHandler.itemBeingDragged.transform.GetComponent<Task> ().dependenceName) {
+					task.transform.parent.GetComponent<Slot> ().depFree = true;
+				}
+			}
 		}
 	}
 

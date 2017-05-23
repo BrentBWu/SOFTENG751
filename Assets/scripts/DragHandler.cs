@@ -24,26 +24,28 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		GameObject.Find ("DependsOn").GetComponent<Text> ().text = "Depends on:\n " + transform.GetComponent<Task> ().getDependenceList();
 
 		//Set slot lock
-		/*foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
-			Debug.Log (slot.transform.GetSiblingIndex ());
+		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
 			if (slot.transform.GetSiblingIndex ()== 0) {
 				slot.GetComponent<Slot> ().active = true;
 			} else {
 				slot.GetComponent<Slot> ().active = false;
 			}
-		}*/
+		}
+			
 
 		//Check Dependency
 		if(checkDependence()){
 			foreach (GameObject processor in GameObject.FindGameObjectsWithTag("Processor")) {
 				//Instantiate duration
 
-				//Instantiate slots in processor
+				//Check if slot is active
 				if (transform.parent.tag == "Slot") {
-					if (!transform.parent.GetComponent<Slot> ().active) {
+					if (!transform.parent.GetComponent<Slot> ().active || !transform.parent.GetComponent<Slot> ().depFree) {
 						break;
 					}
 				}
+
+				//Instantiate slots in processor
 				bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
 				bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
 				if (isTaskSlot || !isTaskpool) {
@@ -62,7 +64,9 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		transform.position = Input.mousePosition;
+		if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree) {
+			transform.position = Input.mousePosition;
+		}
 	}
 
 	#endregion
@@ -106,7 +110,6 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 					if (slot.transform.GetChild (0).transform.GetComponent<Task> ().taskName.Trim() == depName) {
 						return true;
 					}
-
 				}
 			}
 		}else{
