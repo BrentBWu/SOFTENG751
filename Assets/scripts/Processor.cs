@@ -14,7 +14,15 @@ public class Processor : MonoBehaviour {
 		
 	}
 
-	public void calculateTotalTime(){
-		
+	public int calculateTotalTime(){
+		int time = 0;
+		foreach (Transform child in transform) {
+			if (child.childCount > 0) {
+				time += child.transform.GetChild (0).transform.GetComponent<Task> ().weight;
+			}
+
+		}
+		totalTime = time;
+		return totalTime;
 	}
 }

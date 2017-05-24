@@ -96,11 +96,18 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		}
 
 
+		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Processor")) {
+			p.transform.GetComponent<Processor> ().calculateTotalTime ();
+		}
+
+		GameObject.Find ("Processor Pool").GetComponent<ProcessorPool> ().calculateTime ();
+
 
 	}
 
 	#endregion
 
+	//Check if task's dependence has been allocated
 	private bool checkDependence(){
 
 		string depName = transform.GetComponent<Task>().dependenceName;
