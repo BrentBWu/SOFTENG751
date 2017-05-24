@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 	public static GameObject itemBeingDragged;
 	Vector3 startPos;
 	Transform startParent;
+	public Slot taskSlot;
 
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
@@ -15,8 +17,46 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		startPos = transform.position;
 		startParent = transform.parent;
 		GetComponent<CanvasGroup> ().blocksRaycasts = false;
-		Debug.Log ("On drag");
-		Debug.Log (itemBeingDragged.name );
+
+		//Display Task info
+		GameObject.Find ("TaskName").GetComponent<Text> ().text = "Task: " + transform.GetComponent<Task> ().taskName;
+		GameObject.Find ("Weight").GetComponent<Text> ().text = "Weight: " + transform.GetComponent<Task> ().weight;
+		GameObject.Find ("DependsOn").GetComponent<Text> ().text = "Depends on:\n " + transform.GetComponent<Task> ().getDependenceList();
+
+		//Set slot lock
+		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
+			if (slot.transform.GetSiblingIndex ()== 0) {
+				slot.GetComponent<Slot> ().active = true;
+			} else {
+				slot.GetComponent<Slot> ().active = false;
+			}
+		}
+			
+
+		//Check Dependency
+		if(checkDependence()){
+			foreach (GameObject processor in GameObject.FindGameObjectsWithTag("Processor")) {
+				//Instantiate duration
+
+				//Check if slot is active
+				if (transform.parent.tag == "Slot") {
+					if (!transform.parent.GetComponent<Slot> ().active || !transform.parent.GetComponent<Slot> ().depFree) {
+						break;
+					}
+				}
+
+				//Instantiate slots in processor
+				bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
+				bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
+				if (isTaskSlot || !isTaskpool) {
+					Slot slot = Slot.Instantiate (taskSlot);
+					slot.transform.SetParent(processor.transform);
+					slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, transform.GetComponent<Task> ().weight * 10);
+					slot.transform.SetAsFirstSibling();
+				}
+			}
+		}
+
 	}
 	#endregion
 
@@ -24,7 +64,9 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		transform.position = Input.mousePosition;
+		if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree) {
+			transform.position = Input.mousePosition;
+		}
 	}
 
 	#endregion
@@ -33,14 +75,55 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
-		Debug.Log ("End drag");
 		itemBeingDragged = null;
 		GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		if (transform.parent == startParent) {
 			transform.position = startPos;
 		}
 
+		//Destroy unused slot
+		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
+			if(slot.transform.childCount == 0){
+				Destroy (slot);
+			}
+		}
+
+		//Destroy unused duration
+		foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
+			if (dur.transform.GetSiblingIndex() == 0) {
+				Destroy (dur);
+			}
+		}
+
+
+		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Processor")) {
+			p.transform.GetComponent<Processor> ().calculateTotalTime ();
+		}
+
+		GameObject.Find ("Processor Pool").GetComponent<ProcessorPool> ().calculateTime ();
+
+
 	}
 
 	#endregion
+
+	//Check if task's dependence has been allocated
+	private bool checkDependence(){
+
+		string depName = transform.GetComponent<Task>().dependenceName;
+		if (depName != "") {
+			foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")){
+				if (slot.transform.childCount > 0) {
+					if (slot.transform.GetChild (0).transform.GetComponent<Task> ().taskName.Trim() == depName) {
+						return true;
+					}
+				}
+			}
+		}else{
+			return true;
+		}
+
+		return false;
+
+	}
 }

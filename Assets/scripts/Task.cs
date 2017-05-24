@@ -5,18 +5,28 @@ using UnityEngine.UI;
 
 public class Task : MonoBehaviour {
 
+	public string taskName;
 	public int weight;
-	public GameObject[] dependencies;
-	public int communicationTime;
+	public string dependenceName;
+	public int dependenceWeight;
 	public Color32 taskColor;
 
 	// Use this for initialization
 	void Start () {
 		this.GetComponent<Image> ().color = taskColor;
+		this.transform.GetChild (0).GetComponent<Text> ().text = taskName;
+		transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, weight * 10);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	public void addDependence(string name, int weight){
+		dependenceName = name;
+		dependenceWeight = weight;
 	}
+
+	public string getDependenceList(){
+		string dep = "\n" + dependenceName + " (Transfer Time:" + dependenceWeight + ")";
+		return dep;
+	}
+
+
 }
