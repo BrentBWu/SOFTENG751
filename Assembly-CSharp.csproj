@@ -46,14 +46,68 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\MaterialUI\Examples\Scripts\04 - RadioButton\Example04.cs" />
+     <Compile Include="Assets\MaterialUI\Examples\Scripts\05 - Sliders\Example05.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\Anim.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ButtonInteractableControl.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\CheckBoxToggler.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\CheckboxConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\CheckboxFillerControl.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ColorCopier.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\DialogBoxConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\EZAnim.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\FPSCounter.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\HSBColor.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\InputFieldConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\MaterialGlobals.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\MaterialUIScaler.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\MaterialUIVersion.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\MenuArrowAnim.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\NavDrawerConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\RadioConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\RectTransformSnap.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\RippleAnim.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\RippleConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\RippleControl.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ScreenConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ScreenManager.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\SelectionBoxConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\SelectionBoxSubscriber.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\SelectionListItemConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ShadowAnim.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ShadowConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ShadowGen.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ShadowSnap.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\SliderConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\SnapButtonToText.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\SpriteSwapper.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\SwitchConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\TextInputLine.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ToastAnim.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ToastControl.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\Toaster.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ToggleConfig.cs" />
+     <Compile Include="Assets\MaterialUI\Scripts\ToggleTextChanger.cs" />
+     <Compile Include="Assets\scripts\CreditToMenu.cs" />
      <Compile Include="Assets\scripts\DragHandler.cs" />
      <Compile Include="Assets\scripts\FlowLayoutGroup.cs" />
+     <Compile Include="Assets\scripts\GameManager.cs" />
+     <Compile Include="Assets\scripts\IndexToMenu.cs" />
+     <Compile Include="Assets\scripts\LoadScene.cs" />
+     <Compile Include="Assets\scripts\MenuToCredit.cs" />
+     <Compile Include="Assets\scripts\MenuToIndex.cs" />
      <Compile Include="Assets\scripts\Processor.cs" />
      <Compile Include="Assets\scripts\ProcessorPool.cs" />
+     <Compile Include="Assets\scripts\Question.cs" />
+     <Compile Include="Assets\scripts\ScrollSnapRect.cs" />
      <Compile Include="Assets\scripts\Slot.cs" />
      <Compile Include="Assets\scripts\Task.cs" />
      <Compile Include="Assets\scripts\TaskPool.cs" />
      <None Include="Assets\resources\nodes.txt" />
+     <None Include="Assets\MaterialUI\Fonts\NOTICE.txt" />
+ <Reference Include="Facebook.Unity.Settings">
+ <HintPath>C:/Users/jeffm/SOFTENG751/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
