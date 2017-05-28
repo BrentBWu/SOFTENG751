@@ -51,7 +51,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 			foreach (GameObject processor in GameObject.FindGameObjectsWithTag("Processor")) {
 				bool inProcessor = transform.parent.transform.parent.transform == processor.transform;
-				//Debug.Log (hasDep && !inProcessor && depPro.transform != processor.GetComponent<Processor>().transform);
+
 				//Instantiate duration
 				if(hasDep && !inProcessor && depPro.transform != processor.GetComponent<Processor>().transform){
 					//Calculate duration length
@@ -94,7 +94,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree) {
+		if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree && transform.GetComponent<Task> ().answer) {
 			transform.position = Input.mousePosition;
 		}
 	}

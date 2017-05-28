@@ -48,7 +48,7 @@ public class TaskPool : MonoBehaviour {
 			}
 		}
 
-		GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(dictionaryTasks[0]);
+		//GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(dictionaryTasks[0]);
 	}
 
 }

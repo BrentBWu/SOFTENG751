@@ -8,6 +8,8 @@ public class ProcessorPool : MonoBehaviour {
 	public GameObject proccessor; 
 	public int totalTime;
 	public Task task;
+	public Task duration;
+	public Slot slot;
 
 
 	// Use this for initialization
@@ -40,6 +42,7 @@ public class ProcessorPool : MonoBehaviour {
 	public void loadAnswer(TextAsset inputFile){
 		string wholeFile = inputFile.text;
 		List<string> eachLine = new List<string> ();
+		List<Task> tasks = new List<Task> ();
 		eachLine.AddRange (wholeFile.Split ("\n" [0]));
 		bool ansStart = false;
 		int processorNum = int.Parse (eachLine [0].Split (' ') [1]);
@@ -60,15 +63,37 @@ public class ProcessorPool : MonoBehaviour {
 				Task t = Task.Instantiate (task);
 				t.taskName = taskName;
 				t.weight = taskweight;
+				t.startTime = startTime;
 				t.taskColor = Random.ColorHSV (0f, 1f, 1f, 1f, 0.5f, 1f);
+				t.processor = processor;
+				t.answer = true;
+
+				tasks.Add (t);
 
 			}
-
 			if (eachLine [i].Trim () == "Answer{") {
 				ansStart = true;
 			}
+		}
 
+		tasks.Sort ((p1, p2) => p1.startTime.CompareTo (p2.startTime));
 
+		//Allocate answer tasks into processors
+		foreach (Task t in tasks) {
+			int proTotalTime = transform.GetChild (t.processor - 1).GetComponent<Processor> ().calculateTotalTime ();
+			if (proTotalTime < t.startTime) {
+				Task dur = Instantiate (duration);
+				dur.transform.SetParent (transform.GetChild (t.processor - 1));
+				dur.transform.SetAsFirstSibling();
+				dur.weight = t.startTime - proTotalTime;
+				dur.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, dur.weight * 10);
+			}
+			Slot s = Instantiate (slot);
+			s.transform.SetParent(transform.GetChild (t.processor - 1));
+			s.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, t.weight * 10);
+			s.transform.SetAsFirstSibling();
+			s.isTaskPool = true;
+			t.transform.SetParent (s.transform);
 		}
 	}
 		

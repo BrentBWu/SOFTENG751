@@ -11,6 +11,8 @@ public class Task : MonoBehaviour {
 	public int dependenceWeight;
 	public Color32 taskColor;
 	public int startTime;
+	public int processor;
+	public bool answer;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +22,8 @@ public class Task : MonoBehaviour {
 			transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, weight * 10);
 		}
 		startTime = 0;
+		processor = 0;
+		answer = false;
 	}
 	
 	public void addDependence(string name, int weight){
