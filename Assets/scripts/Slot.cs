@@ -33,6 +33,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 	{
 		if (!item && !isTaskPool) {
 			DragHandler.itemBeingDragged.transform.SetParent (transform);
+			DragHandler.itemBeingDragged.transform.GetComponent<Task>().startTime = transform.parent.transform.GetComponent<Processor>().calculateTotalTime();
 			foreach (GameObject task in GameObject.FindGameObjectsWithTag("Task")) {
 				if (task.GetComponent<Task>().taskName.Trim() == DragHandler.itemBeingDragged.transform.GetComponent<Task> ().dependenceName) {
 					task.transform.parent.GetComponent<Slot> ().depFree = false;
@@ -40,13 +41,15 @@ public class Slot : MonoBehaviour, IDropHandler {
 			}
 		}else if(isTaskPool){
 			DragHandler.itemBeingDragged.transform.SetParent (transform);
-
+			DragHandler.itemBeingDragged.transform.GetComponent<Task>().startTime = 0;
 			foreach (GameObject task in GameObject.FindGameObjectsWithTag("Task")) {
 				if (task.GetComponent<Task>().taskName.Trim() == DragHandler.itemBeingDragged.transform.GetComponent<Task> ().dependenceName) {
 					task.transform.parent.GetComponent<Slot> ().depFree = true;
 				}
 			}
+
 		}
+			
 	}
 
 	#endregion

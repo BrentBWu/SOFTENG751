@@ -9,6 +9,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	Vector3 startPos;
 	Transform startParent;
 	public Slot taskSlot;
+	public Task duration;
 
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
@@ -35,11 +36,39 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 		//Check Dependency
 		if(checkDependence()){
+			bool inSlot = transform.parent.tag == "Slot";
+			bool hasDep = transform.GetComponent<Task> ().dependenceName != "";
+			int depEndTime = 0;
+			Processor depPro = null;
+			if (hasDep) {
+				foreach (GameObject t in GameObject.FindGameObjectsWithTag("Task")) {
+					if (t.GetComponent<Task>().taskName.Trim () == transform.GetComponent<Task> ().dependenceName) {
+						depEndTime = t.GetComponent<Task>().startTime + t.GetComponent<Task>().weight + transform.GetComponent<Task>().dependenceWeight;
+						depPro = t.transform.parent.parent.GetComponent<Processor> ();
+					}
+				}
+			}
+
 			foreach (GameObject processor in GameObject.FindGameObjectsWithTag("Processor")) {
+				bool inProcessor = transform.parent.transform.parent.transform == processor.transform;
+				//Debug.Log (hasDep && !inProcessor && depPro.transform != processor.GetComponent<Processor>().transform);
 				//Instantiate duration
+				if(hasDep && !inProcessor && depPro.transform != processor.GetComponent<Processor>().transform){
+					//Calculate duration length
+					int durWeight = depEndTime - processor.GetComponent<Processor>().calculateTotalTime();
+					Debug.Log (processor.GetComponent<Processor>().totalTime);
+					if (durWeight > 0) {
+						Task dur = Instantiate (duration);
+						dur.transform.SetParent (processor.transform);
+						dur.transform.SetAsFirstSibling();
+						dur.weight = durWeight;
+						dur.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, dur.weight * 10);
+					}
+
+				}
 
 				//Check if slot is active
-				if (transform.parent.tag == "Slot") {
+				if (inSlot) {
 					if (!transform.parent.GetComponent<Slot> ().active || !transform.parent.GetComponent<Slot> ().depFree) {
 						break;
 					}
@@ -48,7 +77,8 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 				//Instantiate slots in processor
 				bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
 				bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
-				if (isTaskSlot || !isTaskpool) {
+
+				if ((isTaskSlot || !isTaskpool) && !inProcessor) {
 					Slot slot = Slot.Instantiate (taskSlot);
 					slot.transform.SetParent(processor.transform);
 					slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, transform.GetComponent<Task> ().weight * 10);
@@ -81,27 +111,8 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 			transform.position = startPos;
 		}
 
-		//Destroy unused slot
-		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
-			if(slot.transform.childCount == 0){
-				Destroy (slot);
-			}
-		}
 
-		//Destroy unused duration
-		foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
-			if (dur.transform.GetSiblingIndex() == 0) {
-				Destroy (dur);
-			}
-		}
-
-
-		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Processor")) {
-			p.transform.GetComponent<Processor> ().calculateTotalTime ();
-		}
-
-		GameObject.Find ("Processor Pool").GetComponent<ProcessorPool> ().calculateTime ();
-
+		deleteUnused ();
 
 	}
 
@@ -126,4 +137,28 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		return false;
 
 	}
+
+	public void deleteUnused(){
+		//Destroy unused slot
+		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
+			if(slot.transform.childCount == 0){
+				Destroy (slot);
+			}
+		}
+
+		//Destroy unused duration
+		foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
+			if (dur.transform.parent != transform.parent.transform.parent && dur.transform.GetSiblingIndex() == 1) {
+				Destroy (dur);
+			}
+		}
+
+
+		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Processor")) {
+			p.transform.GetComponent<Processor> ().calculateTotalTime ();
+		}
+
+		GameObject.Find ("Processor Pool").GetComponent<ProcessorPool> ().calculateTime ();
+	}
+		
 }
