@@ -21,7 +21,11 @@ public class TaskPool : MonoBehaviour {
 		eachLine.AddRange (wholeFile.Split ("\n" [0]));
 
 		//Iterate the file and instantiate task
-		for (int i = 0; i < eachLine.Count; i++) {
+		for (int i = 1; i < eachLine.Count; i++) {
+			if (eachLine [i].Trim() == "}") {
+				break;
+			}
+
 			string taskName = eachLine [i].Split ('[', ']') [0];
 			string taskInfo = eachLine [i].Split ('[', ']') [1];
 			string[] taskType = taskName.Split (' ');
@@ -42,9 +46,9 @@ public class TaskPool : MonoBehaviour {
 					}
 				}
 			}
-				
-
 		}
+
+		GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(dictionaryTasks[0]);
 	}
 
 }

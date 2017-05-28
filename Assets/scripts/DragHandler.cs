@@ -148,7 +148,8 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 		//Destroy unused duration
 		foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
-			if (dur.transform.parent != transform.parent.transform.parent && dur.transform.GetSiblingIndex() == 1) {
+			if (dur.transform.parent != transform.parent.transform.parent && dur.transform.GetSiblingIndex() == 1 && 
+				(transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree)) {
 				Destroy (dur);
 			}
 		}
