@@ -56,7 +56,6 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 				if(hasDep && !inProcessor && depPro.transform != processor.GetComponent<Processor>().transform){
 					//Calculate duration length
 					int durWeight = depEndTime - processor.GetComponent<Processor>().calculateTotalTime();
-					Debug.Log (processor.GetComponent<Processor>().totalTime);
 					if (durWeight > 0) {
 						Task dur = Instantiate (duration);
 						dur.transform.SetParent (processor.transform);
@@ -78,7 +77,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 				bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
 				bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
 
-				if ((isTaskSlot || !isTaskpool) && !inProcessor) {
+				if ((isTaskSlot || !isTaskpool) && !inProcessor && !transform.GetComponent<Task>().answer) {
 					Slot slot = Slot.Instantiate (taskSlot);
 					slot.transform.SetParent(processor.transform);
 					slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, transform.GetComponent<Task> ().weight * 10);
@@ -94,7 +93,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree && transform.GetComponent<Task> ().answer) {
+		if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree && !transform.GetComponent<Task> ().answer) {
 			transform.position = Input.mousePosition;
 		}
 	}
@@ -147,12 +146,15 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		}
 
 		//Destroy unused duration
-		foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
-			if (dur.transform.parent != transform.parent.transform.parent && dur.transform.GetSiblingIndex() == 1 && 
-				(transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree)) {
-				Destroy (dur);
+		if(!transform.GetComponent<Task>().answer){
+			foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
+				if (dur.transform.parent != transform.parent.transform.parent && dur.transform.GetSiblingIndex() == 1 && 
+					(transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree)) {
+					Destroy (dur);
+				}
 			}
 		}
+
 
 
 		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Processor")) {

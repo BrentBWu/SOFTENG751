@@ -23,9 +23,9 @@ public class Task : MonoBehaviour {
 		}
 		startTime = 0;
 		processor = 0;
-		answer = false;
+
 	}
-	
+
 	public void addDependence(string name, int weight){
 		dependenceName = name;
 		dependenceWeight = weight;

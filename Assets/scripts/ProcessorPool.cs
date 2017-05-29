@@ -47,6 +47,7 @@ public class ProcessorPool : MonoBehaviour {
 		bool ansStart = false;
 		int processorNum = int.Parse (eachLine [0].Split (' ') [1]);
 
+		//Load task infomation
 		for (int i = 1; i < eachLine.Count; i++) {
 			if (ansStart) {
 				//Break when reach the end
@@ -66,8 +67,6 @@ public class ProcessorPool : MonoBehaviour {
 				t.startTime = startTime;
 				t.taskColor = Random.ColorHSV (0f, 1f, 1f, 1f, 0.5f, 1f);
 				t.processor = processor;
-				t.answer = true;
-
 				tasks.Add (t);
 
 			}
@@ -93,8 +92,12 @@ public class ProcessorPool : MonoBehaviour {
 			s.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, t.weight * 10);
 			s.transform.SetAsFirstSibling();
 			s.isTaskPool = true;
+			s.active = false;
+			s.depFree = false;
+			s.isTaskPool = false;
+			t.answer = true;
 			t.transform.SetParent (s.transform);
 		}
+			
 	}
-		
 }

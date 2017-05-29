@@ -31,7 +31,7 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 	public void OnDrop (PointerEventData eventData)
 	{
-		if (!item && !isTaskPool) {
+		if (!item && !isTaskPool && transform.childCount != 1) {
 			DragHandler.itemBeingDragged.transform.SetParent (transform);
 			DragHandler.itemBeingDragged.transform.GetComponent<Task>().startTime = transform.parent.transform.GetComponent<Processor>().calculateTotalTime()
 				- DragHandler.itemBeingDragged.transform.GetComponent<Task>().weight;

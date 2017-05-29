@@ -11,7 +11,8 @@ public class TaskPool : MonoBehaviour {
 	private List<Task> taskSet = new List<Task> ();
 
 	void Start(){
-		LoadTask (0);
+		//LoadTask (0);
+		GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(dictionaryTasks[0]);
 	}
 
 	void LoadTask(int textIndex){
@@ -37,6 +38,7 @@ public class TaskPool : MonoBehaviour {
 				t.taskName = taskType[0];
 				t.weight = int.Parse (taskInfo.Replace ("Weight=", ""));
 				t.taskColor = Random.ColorHSV (0f, 1f, 1f, 1f, 0.5f, 1f);
+				t.answer = false;
 				taskSet.Add (t);
 			} else if (taskType.Length == 4) {
 				foreach (Task t in taskSet) {
@@ -48,7 +50,7 @@ public class TaskPool : MonoBehaviour {
 			}
 		}
 
-		//GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(dictionaryTasks[0]);
+
 	}
 
 }
