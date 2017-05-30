@@ -8,8 +8,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	public static GameObject itemBeingDragged;
 	Vector3 startPos;
 	Transform startParent;
-	public Slot taskSlot;
-	public Task duration;
+
 
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
@@ -57,11 +56,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 					//Calculate duration length
 					int durWeight = depEndTime - processor.GetComponent<Processor>().calculateTotalTime();
 					if (durWeight > 0) {
-						Task dur = Instantiate (duration);
-						dur.transform.SetParent (processor.transform);
-						dur.transform.SetAsFirstSibling();
-						dur.weight = durWeight;
-						dur.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, dur.weight * 10);
+						processor.transform.GetComponent<Processor> ().createDuration (durWeight);
 					}
 
 				}
@@ -78,10 +73,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 				bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
 
 				if ((isTaskSlot || !isTaskpool) && !inProcessor && !transform.GetComponent<Task>().answer) {
-					Slot slot = Slot.Instantiate (taskSlot);
-					slot.transform.SetParent(processor.transform);
-					slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, transform.GetComponent<Task> ().weight * 10);
-					slot.transform.SetAsFirstSibling();
+					processor.transform.GetComponent<Processor> ().createTaskSlot (transform.GetComponent<Task> ().weight);
 				}
 			}
 		}

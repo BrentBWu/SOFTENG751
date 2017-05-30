@@ -10,6 +10,9 @@ public class ProcessorPool : MonoBehaviour {
 	public Task task;
 	public Task duration;
 	public Slot slot;
+	private Color32[] colorPool = {new Color32(128,192,206,255), new Color32(154,222,162,255), new Color32(255,141,104,255), new Color32(255,236,186,255), new Color32(234,231,237,255), 
+		new Color32(183,147,230,255), new Color32(255,251,133,255), new Color32(194,246,155,255), new Color32(250,91,117,255), new Color32(71,151,177,255), 
+		new Color32(195,190,240,255), new Color32(95,189,197,255), new Color32(252,138,21,255), new Color32(216,217,92,255), new Color32(204,168,233,255) };
 
 
 	// Use this for initialization
@@ -46,7 +49,7 @@ public class ProcessorPool : MonoBehaviour {
 		eachLine.AddRange (wholeFile.Split ("\n" [0]));
 		bool ansStart = false;
 		int processorNum = int.Parse (eachLine [0].Split (' ') [1]);
-
+		int colorIndex = 0;
 		//Load task infomation
 		for (int i = 1; i < eachLine.Count; i++) {
 			if (ansStart) {
@@ -65,7 +68,8 @@ public class ProcessorPool : MonoBehaviour {
 				t.taskName = taskName;
 				t.weight = taskweight;
 				t.startTime = startTime;
-				t.taskColor = Random.ColorHSV (0f, 1f, 1f, 1f, 0.5f, 1f);
+				t.taskColor = colorPool[colorIndex];
+				colorIndex++;
 				t.processor = processor;
 				tasks.Add (t);
 

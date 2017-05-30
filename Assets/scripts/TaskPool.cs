@@ -8,6 +8,9 @@ public class TaskPool : MonoBehaviour {
 	private List<string> eachLine;
 	public Task task;
 	private List<Task> taskSet = new List<Task> ();
+	private Color32[] colorPool = {new Color32(128,192,206,255), new Color32(154,222,162,255), new Color32(255,141,104,255), new Color32(255,236,186,255), new Color32(234,231,237,255), 
+		new Color32(183,147,230,255), new Color32(255,251,133,255), new Color32(194,246,155,255), new Color32(250,91,117,255), new Color32(71,151,177,255), 
+		new Color32(195,190,240,255), new Color32(95,189,197,255), new Color32(252,138,21,255), new Color32(216,217,92,255), new Color32(204,168,233,255) };
 
 	void Start(){
 		LoadTask (GameObject.Find("Canvas").GetComponent<ResourceManage>().getGame(0));
@@ -20,6 +23,8 @@ public class TaskPool : MonoBehaviour {
 
 		eachLine = new List<string> ();
 		eachLine.AddRange (wholeFile.Split ("\n" [0]));
+
+		int colorIndex = 0;
 
 		//Iterate the file and instantiate task
 		for (int i = 1; i < eachLine.Count; i++) {
@@ -37,7 +42,8 @@ public class TaskPool : MonoBehaviour {
 				t.transform.SetParent (this.transform);
 				t.taskName = taskType[0];
 				t.weight = int.Parse (taskInfo.Replace ("Weight=", ""));
-				t.taskColor = Random.ColorHSV (0f, 1f, 1f, 1f, 0.5f, 1f);
+				t.taskColor = colorPool[colorIndex];
+				colorIndex++;
 				t.answer = false;
 				taskSet.Add (t);
 			} else if (taskType.Length == 4) {
