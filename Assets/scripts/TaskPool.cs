@@ -4,19 +4,19 @@ using System.IO;
 using UnityEngine;
 
 public class TaskPool : MonoBehaviour {
-	public TextAsset[] dictionaryTasks;
 	private string wholeFile;
 	private List<string> eachLine;
 	public Task task;
 	private List<Task> taskSet = new List<Task> ();
 
 	void Start(){
-		//LoadTask (0);
-		GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(dictionaryTasks[0]);
+		LoadTask (GameObject.Find("Canvas").GetComponent<ResourceManage>().getGame(0));
+		GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(GameObject.Find("Canvas").GetComponent<ResourceManage>().getGame(0));
 	}
+		
 
-	void LoadTask(int textIndex){
-		wholeFile = dictionaryTasks[textIndex].text;
+	void LoadTask(TextAsset game){
+		wholeFile = game.text;
 
 		eachLine = new List<string> ();
 		eachLine.AddRange (wholeFile.Split ("\n" [0]));
