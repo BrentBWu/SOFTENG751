@@ -63,18 +63,23 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 				//Check if slot is active
 				if (inSlot) {
-					if (!transform.parent.GetComponent<Slot> ().active || !transform.parent.GetComponent<Slot> ().depFree) {
-						break;
+					if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree) {
+						bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
+						bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
+
+						if ((isTaskSlot || !isTaskpool) && !inProcessor && !transform.GetComponent<Task>().answer) {
+							processor.transform.GetComponent<Processor> ().createTaskSlot (transform.GetComponent<Task> ().weight);
+						}
 					}
 				}
 
 				//Instantiate slots in processor
-				bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
+				/*bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
 				bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
 
 				if ((isTaskSlot || !isTaskpool) && !inProcessor && !transform.GetComponent<Task>().answer) {
 					processor.transform.GetComponent<Processor> ().createTaskSlot (transform.GetComponent<Task> ().weight);
-				}
+				}*/
 			}
 		}
 

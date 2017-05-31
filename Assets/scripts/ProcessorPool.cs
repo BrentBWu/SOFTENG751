@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ProcessorPool : MonoBehaviour {
-	public int processorNumer;
 	public GameObject proccessor; 
 	public int totalTime;
 	public Task task;
@@ -17,7 +16,6 @@ public class ProcessorPool : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		initProcessor (processorNumer);
 	}
 
 	//Find the processor has maximum time and set it to totalTime
@@ -34,8 +32,9 @@ public class ProcessorPool : MonoBehaviour {
 		GameObject.Find ("TotalTime").GetComponent<Text> ().text = "Total time: " + Mathf.Max (processorTimes);
 	}
 
+	//Instantiate processor in processor pool
 	public void initProcessor(int proNum){
-		for (int i = 0; i < processorNumer; i++) {
+		for (int i = 0; i < proNum; i++) {
 			Instantiate (proccessor).transform.SetParent (this.transform);
 		}
 		totalTime = 0;

@@ -14,7 +14,7 @@ public class TaskPool : MonoBehaviour {
 
 	void Start(){
 		LoadTask (GameObject.Find("Canvas").GetComponent<ResourceManage>().getGame(0));
-		GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(GameObject.Find("Canvas").GetComponent<ResourceManage>().getGame(0));
+		//GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(GameObject.Find("Canvas").GetComponent<ResourceManage>().getGame(0));
 	}
 		
 
@@ -23,6 +23,8 @@ public class TaskPool : MonoBehaviour {
 
 		eachLine = new List<string> ();
 		eachLine.AddRange (wholeFile.Split ("\n" [0]));
+		int processorNum = int.Parse (eachLine [0].Split (' ') [1]);
+		GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().initProcessor(processorNum);
 
 		int colorIndex = 0;
 
