@@ -4,14 +4,24 @@ using UnityEngine;
 
 public class Processor : MonoBehaviour {
 	public int totalTime;
+	public Slot taskSlot;
+	public Task duration;
 
-	// Use this for initialization
-	void Start () {
-		
+	//Instantiate Slot in processor
+	public void createTaskSlot(int weight){
+		Slot slot = Slot.Instantiate (taskSlot);
+		slot.transform.SetParent(transform);
+		slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, weight * 10);
+		slot.transform.SetAsFirstSibling();
 	}
-	
-	public void createTaskSlot(){
-		
+
+	//Instantiate duration in processor
+	public void createDuration(int durWeight){
+		Task dur = Instantiate (duration);
+		dur.transform.SetParent (transform);
+		dur.transform.SetAsFirstSibling();
+		dur.weight = durWeight;
+		dur.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, dur.weight * 10);
 	}
 
 	public int calculateTotalTime(){
@@ -19,6 +29,8 @@ public class Processor : MonoBehaviour {
 		foreach (Transform child in transform) {
 			if (child.childCount > 0) {
 				time += child.transform.GetChild (0).transform.GetComponent<Task> ().weight;
+			} else if (child.tag == "Duration") {
+				time += child.transform.GetComponent<Task> ().weight;
 			}
 
 		}

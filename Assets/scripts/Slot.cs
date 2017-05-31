@@ -31,8 +31,10 @@ public class Slot : MonoBehaviour, IDropHandler {
 
 	public void OnDrop (PointerEventData eventData)
 	{
-		if (!item && !isTaskPool) {
+		if (!item && !isTaskPool && transform.childCount != 1) {
 			DragHandler.itemBeingDragged.transform.SetParent (transform);
+			DragHandler.itemBeingDragged.transform.GetComponent<Task>().startTime = transform.parent.transform.GetComponent<Processor>().calculateTotalTime()
+				- DragHandler.itemBeingDragged.transform.GetComponent<Task>().weight;
 			foreach (GameObject task in GameObject.FindGameObjectsWithTag("Task")) {
 				if (task.GetComponent<Task>().taskName.Trim() == DragHandler.itemBeingDragged.transform.GetComponent<Task> ().dependenceName) {
 					task.transform.parent.GetComponent<Slot> ().depFree = false;
@@ -40,13 +42,15 @@ public class Slot : MonoBehaviour, IDropHandler {
 			}
 		}else if(isTaskPool){
 			DragHandler.itemBeingDragged.transform.SetParent (transform);
-
+			DragHandler.itemBeingDragged.transform.GetComponent<Task>().startTime = 0;
 			foreach (GameObject task in GameObject.FindGameObjectsWithTag("Task")) {
 				if (task.GetComponent<Task>().taskName.Trim() == DragHandler.itemBeingDragged.transform.GetComponent<Task> ().dependenceName) {
 					task.transform.parent.GetComponent<Slot> ().depFree = true;
 				}
 			}
+
 		}
+			
 	}
 
 	#endregion

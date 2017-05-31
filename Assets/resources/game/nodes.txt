@@ -1,0 +1,24 @@
+Processor 4 {
+0	 [Weight=5];
+1	 [Weight=6];
+0 -> 1	 [Weight=5];
+2	 [Weight=5];
+0 -> 2	 [Weight=3];
+3	 [Weight=6];
+0 -> 3	 [Weight=4];
+4	 [Weight=4];
+1 -> 4	 [Weight=7];
+5	 [Weight=7];
+1 -> 5	 [Weight=1];
+6	 [Weight=7];
+1 -> 6	 [Weight=5];
+}
+Answer{
+0 [Weight=5, Start=0, Processor=1];
+1 [Weight=6, Start=5, Processor=1];
+2 [Weight=5, Start=8, Processor=4];
+3 [Weight=6, Start=9, Processor=3];
+4 [Weight=4, Start=11, Processor=1];
+5 [Weight=7, Start=12, Processor=2];
+6 [Weight=7, Start=15, Processor=1];
+}

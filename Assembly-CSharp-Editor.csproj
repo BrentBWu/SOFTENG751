@@ -55,7 +55,7 @@
      <Compile Include="Assets\MaterialUI\Editor\ShadowGenEditor.cs" />
      <Compile Include="Assets\MaterialUI\Editor\SnapButtonToTextEditor.cs" />
      <Compile Include="Assets\MaterialUI\Editor\TexturePostProcessor.cs" />
-     <None Include="Assets\resources\nodes.txt" />
+     <None Include="Assets\resources\game\nodes.txt" />
      <None Include="Assets\MaterialUI\Fonts\NOTICE.txt" />
  <Reference Include="Facebook.Unity.Settings">
  <HintPath>C:/Users/jeffm/SOFTENG751/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>

@@ -8,7 +8,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	public static GameObject itemBeingDragged;
 	Vector3 startPos;
 	Transform startParent;
-	public Slot taskSlot;
+
 
 	#region IBeginDragHandler implementation
 	public void OnBeginDrag (PointerEventData eventData)
@@ -35,25 +35,51 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 		//Check Dependency
 		if(checkDependence()){
+			bool inSlot = transform.parent.tag == "Slot";
+			bool hasDep = transform.GetComponent<Task> ().dependenceName != "";
+			int depEndTime = 0;
+			Processor depPro = null;
+			if (hasDep) {
+				foreach (GameObject t in GameObject.FindGameObjectsWithTag("Task")) {
+					if (t.GetComponent<Task>().taskName.Trim () == transform.GetComponent<Task> ().dependenceName) {
+						depEndTime = t.GetComponent<Task>().startTime + t.GetComponent<Task>().weight + transform.GetComponent<Task>().dependenceWeight;
+						depPro = t.transform.parent.parent.GetComponent<Processor> ();
+					}
+				}
+			}
+
 			foreach (GameObject processor in GameObject.FindGameObjectsWithTag("Processor")) {
+				bool inProcessor = transform.parent.transform.parent.transform == processor.transform;
+
 				//Instantiate duration
+				if(hasDep && !inProcessor && depPro.transform != processor.GetComponent<Processor>().transform){
+					//Calculate duration length
+					int durWeight = depEndTime - processor.GetComponent<Processor>().calculateTotalTime();
+					if (durWeight > 0) {
+						processor.transform.GetComponent<Processor> ().createDuration (durWeight);
+					}
+
+				}
 
 				//Check if slot is active
-				if (transform.parent.tag == "Slot") {
-					if (!transform.parent.GetComponent<Slot> ().active || !transform.parent.GetComponent<Slot> ().depFree) {
-						break;
+				if (inSlot) {
+					if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree) {
+						bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
+						bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
+
+						if ((isTaskSlot || !isTaskpool) && !inProcessor && !transform.GetComponent<Task>().answer) {
+							processor.transform.GetComponent<Processor> ().createTaskSlot (transform.GetComponent<Task> ().weight);
+						}
 					}
 				}
 
 				//Instantiate slots in processor
-				bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
+				/*bool isTaskSlot = transform.parent.transform.parent.transform.GetSiblingIndex () != processor.transform.GetSiblingIndex ();
 				bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
-				if (isTaskSlot || !isTaskpool) {
-					Slot slot = Slot.Instantiate (taskSlot);
-					slot.transform.SetParent(processor.transform);
-					slot.transform.GetComponent<RectTransform> ().sizeDelta = new Vector2 (60, transform.GetComponent<Task> ().weight * 10);
-					slot.transform.SetAsFirstSibling();
-				}
+
+				if ((isTaskSlot || !isTaskpool) && !inProcessor && !transform.GetComponent<Task>().answer) {
+					processor.transform.GetComponent<Processor> ().createTaskSlot (transform.GetComponent<Task> ().weight);
+				}*/
 			}
 		}
 
@@ -64,7 +90,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree) {
+		if (transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree && !transform.GetComponent<Task> ().answer) {
 			transform.position = Input.mousePosition;
 		}
 	}
@@ -81,27 +107,8 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 			transform.position = startPos;
 		}
 
-		//Destroy unused slot
-		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
-			if(slot.transform.childCount == 0){
-				Destroy (slot);
-			}
-		}
 
-		//Destroy unused duration
-		foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
-			if (dur.transform.GetSiblingIndex() == 0) {
-				Destroy (dur);
-			}
-		}
-
-
-		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Processor")) {
-			p.transform.GetComponent<Processor> ().calculateTotalTime ();
-		}
-
-		GameObject.Find ("Processor Pool").GetComponent<ProcessorPool> ().calculateTime ();
-
+		deleteUnused ();
 
 	}
 
@@ -126,4 +133,32 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		return false;
 
 	}
+
+	public void deleteUnused(){
+		//Destroy unused slot
+		foreach (GameObject slot in GameObject.FindGameObjectsWithTag("Slot")) {
+			if(slot.transform.childCount == 0){
+				Destroy (slot);
+			}
+		}
+
+		//Destroy unused duration
+		if(!transform.GetComponent<Task>().answer){
+			foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
+				if (dur.transform.parent != transform.parent.transform.parent && dur.transform.GetSiblingIndex() == 1 && 
+					(transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree)) {
+					Destroy (dur);
+				}
+			}
+		}
+
+
+
+		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Processor")) {
+			p.transform.GetComponent<Processor> ().calculateTotalTime ();
+		}
+
+		GameObject.Find ("Processor Pool").GetComponent<ProcessorPool> ().calculateTime ();
+	}
+		
 }
