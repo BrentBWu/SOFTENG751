@@ -92,6 +92,7 @@
      <Compile Include="Assets\scripts\FlowLayoutGroup.cs" />
      <Compile Include="Assets\scripts\GameManager.cs" />
      <Compile Include="Assets\scripts\LoadScene.cs" />
+     <Compile Include="Assets\scripts\Option.cs" />
      <Compile Include="Assets\scripts\Processor.cs" />
      <Compile Include="Assets\scripts\ProcessorPool.cs" />
      <Compile Include="Assets\scripts\ResourceManage.cs" />

@@ -8,6 +8,7 @@ public class ResourceManage : MonoBehaviour {
 	public Object[] loader;
 	public TextAsset[] games;
 	public TextAsset[] quizs;
+	public int startIndex, endIndex, currentIndex;
 
 	// Use this for initialization
 	void Start () {
@@ -42,4 +43,11 @@ public class ResourceManage : MonoBehaviour {
 		return quizs;
 	}
 
+	public void setQuizStartIndex(int startIndex){
+		this.startIndex = startIndex;
+	}
+
+	public void setQuizEndIndex(int endIndex){
+		this.endIndex = endIndex;
+	}
 }

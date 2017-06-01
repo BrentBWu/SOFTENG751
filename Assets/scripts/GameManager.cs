@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
     private Question currentQuestion;
 	public Text questionText;
 	public GameObject questionOption;
+	public int startIndex, endIndex, currentIndex;
 
     [SerializeField]
     private float timeBetweenQuestions = 1f;
@@ -32,7 +33,10 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start() {
 		loadQuiz ();
-		SetCurrentQuestion (0);
+		this.startIndex = GameObject.Find ("ResourceManager").GetComponent<ResourceManage> ().startIndex;
+		this.endIndex = GameObject.Find ("ResourceManager").GetComponent<ResourceManage> ().endIndex;
+		this.currentIndex = startIndex;
+		setCurrentQuestion (currentIndex);
         /*if (unansweredQuestions == null || unansweredQuestions.Count == 0) {
             unansweredQuestions = questions.ToList<Question>();
         }*/
@@ -46,10 +50,7 @@ public class GameManager : MonoBehaviour {
 			string wholeFile = quizs[i].text;
 			List<string> eachLine = new List<string>();
 			eachLine.AddRange (wholeFile.Split ("\n" [0]));
-			Debug.Log (questions.Length);
-			foreach (string s in eachLine) {
-				Debug.Log (s);
-			}
+
 			Question q = new Question ();
 
 			q.optionNumber = int.Parse (eachLine [0].Trim());
@@ -63,18 +64,16 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	/*public void chooseQuestionSet(int startIndex, int endIndex){
-		for (int i = startIndex; i < endIndex; i++) {
-			
-		}
-	}*/
+	public void chooseQuestionSet(int startIndex, int endIndex){
+		
+	}
 
-	void SetCurrentQuestion(int questionIndex){
-		Question q = questions [questionIndex];
-		questionText.text = q.question;
-		for (int i = 0; i < q.optionNumber; i++) {
+	void setCurrentQuestion(int questionIndex){
+		currentQuestion = questions [questionIndex];
+		questionText.text = currentQuestion.question;
+		for (int i = 0; i < currentQuestion.optionNumber; i++) {
 			GameObject option = Instantiate (questionOption);
-			option.transform.Find ("Button Layer").transform.Find ("Button Text").transform.GetComponent<Text> ().text = q.options [i];
+			option.transform.Find ("Button Layer").transform.Find ("Button Text").transform.GetComponent<Text> ().text = currentQuestion.options [i];
 			option.transform.SetParent (GameObject.Find ("Option Panel").transform);
 		}
     }
@@ -87,14 +86,32 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void UserSelectTrue() {
-        animator.SetTrigger("True");
-        StartCoroutine(TransitionToNextQuestion());
- 
-    }
+	public void checkAnswer(){
+		foreach (Transform child in GameObject.Find("Option Panel").transform) {
+			//Check the correctness of chosen option
+			if (child.transform.GetComponent<Option> ().chose) {
+				if (child.GetSiblingIndex() == currentQuestion.correctAnswerIndex) {
+					child.Find ("Button Layer").Find ("Button Text").transform.GetComponent<Text> ().color = new Color (0, 255, 0);
+				} else {
+					child.Find ("Button Layer").Find ("Button Text").transform.GetComponent<Text> ().color = new Color (255, 0, 0);
+				}
+				break;
+			}
+		}
 
-    public void UserSelectFalse(){
-        animator.SetTrigger("False");
-        StartCoroutine(TransitionToNextQuestion());
-    }
+		//Set text color of correct option
+		GameObject.Find ("Option Panel").transform.GetChild (currentQuestion.correctAnswerIndex).Find ("Button Layer").Find ("Button Text").transform.GetComponent<Text> ().color = new Color (0, 255, 0);
+
+	}
+
+	public void nextQuestion(){
+		if (currentIndex < endIndex) {
+			currentIndex++;
+			foreach (Transform child in GameObject.Find("Option Panel").transform) {
+				GameObject.Destroy (child.gameObject);
+			}
+			setCurrentQuestion (currentIndex);
+		}
+	}
+		
 }
