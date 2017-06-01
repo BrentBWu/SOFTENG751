@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
 	public Text questionText;
 	public GameObject questionOption;
 	public int startIndex, endIndex, currentIndex;
+	public GameObject nextButton;
 
     [SerializeField]
     private float timeBetweenQuestions = 1f;
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour {
 
 		//Set text color of correct option
 		GameObject.Find ("Option Panel").transform.GetChild (currentQuestion.correctAnswerIndex).Find ("Button Layer").Find ("Button Text").transform.GetComponent<Text> ().color = new Color (0, 255, 0);
-
+		nextButton.gameObject.SetActive (true);
 	}
 
 	public void nextQuestion(){
@@ -111,6 +112,7 @@ public class GameManager : MonoBehaviour {
 				GameObject.Destroy (child.gameObject);
 			}
 			setCurrentQuestion (currentIndex);
+			nextButton.gameObject.SetActive (false);
 		}
 	}
 		
