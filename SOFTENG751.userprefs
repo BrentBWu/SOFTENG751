@@ -1,13 +1,15 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\SubmitAnswer.cs">
     <Files>
-      <File FileName="Assets\scripts\DragHandler.cs" Line="66" Column="61" />
-      <File FileName="Assets\scripts\ProcessorPool.cs" Line="46" Column="30" />
-      <File FileName="Assets\scripts\ResourceManage.cs" Line="47" Column="32" />
-      <File FileName="Assets\scripts\TaskPool.cs" Line="25" Column="50" />
-      <File FileName="Assets\scripts\GameManager.cs" Line="115" Column="3" />
-      <File FileName="Assets\scripts\Option.cs" Line="21" Column="78" />
+      <File FileName="Assets\scripts\DragHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\ProcessorPool.cs" Line="33" Column="106" />
+      <File FileName="Assets\scripts\ResourceManage.cs" Line="55" Column="18" />
+      <File FileName="Assets\scripts\TaskPool.cs" Line="18" Column="168" />
+      <File FileName="Assets\scripts\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\Option.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\SubmitAnswer.cs" Line="30" Column="22" />
+      <File FileName="Assets\scripts\Task.cs" Line="36" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
