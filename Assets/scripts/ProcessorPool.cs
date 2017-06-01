@@ -49,6 +49,9 @@ public class ProcessorPool : MonoBehaviour {
 		bool ansStart = false;
 		int processorNum = int.Parse (eachLine [0].Split (' ') [1]);
 		int colorIndex = 0;
+
+		initProcessor (processorNum);
+
 		//Load task infomation
 		for (int i = 1; i < eachLine.Count; i++) {
 			if (ansStart) {

@@ -7,18 +7,21 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+	[System.Serializable]
+	public class Question
+	{
+		public int optionNumber;
+		public string question;
+		public string[] options;
+		public int correctAnswerIndex;
+
+	}
+
     public Question[] questions;
     private static List<Question> unansweredQuestions;
     private Question currentQuestion;
-
-    [SerializeField]
-    private Text factText;
-
-    [SerializeField]
-    private Text trueAnswerText;
-
-    [SerializeField]
-    private Text falseAnswerText;
+	public Text questionText;
+	public GameObject questionOption;
 
     [SerializeField]
     private float timeBetweenQuestions = 1f;
@@ -28,26 +31,52 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (unansweredQuestions == null || unansweredQuestions.Count == 0) {
+		loadQuiz ();
+		SetCurrentQuestion (0);
+        /*if (unansweredQuestions == null || unansweredQuestions.Count == 0) {
             unansweredQuestions = questions.ToList<Question>();
-        }
-        SetCurrentQuestion();
-        Debug.Log(currentQuestion.fact + " is " + currentQuestion.isTrue);
+        }*/
+        //SetCurrentQuestion();
     }
 
-    void SetCurrentQuestion(){
-        int randomQuestionIndex = Random.Range(0, unansweredQuestions.Count);
-        currentQuestion = unansweredQuestions[randomQuestionIndex];
-        factText.text = currentQuestion.fact;
-        if (currentQuestion.isTrue)
-        {
-            trueAnswerText.text = "CORRECT";
-            falseAnswerText.text = "WRONG";
-        }
-        else {
-            trueAnswerText.text = "WRONG";
-            falseAnswerText.text = "CORRECT";
-        }
+	void loadQuiz(){
+		TextAsset[] quizs = GameObject.Find ("ResourceManager").GetComponent<ResourceManage> ().getQuiz ();
+		questions = new Question[quizs.Length];
+		for (int i = 0; i < quizs.Length; i++) {
+			string wholeFile = quizs[i].text;
+			List<string> eachLine = new List<string>();
+			eachLine.AddRange (wholeFile.Split ("\n" [0]));
+			Debug.Log (questions.Length);
+			foreach (string s in eachLine) {
+				Debug.Log (s);
+			}
+			Question q = new Question ();
+
+			q.optionNumber = int.Parse (eachLine [0].Trim());
+			q.question = eachLine [1];
+			q.options = new string[int.Parse (eachLine [0])];
+			q.correctAnswerIndex = int.Parse(eachLine [int.Parse (eachLine [0]) + 2]);
+			for (int j = 0; j < q.optionNumber; j++) {
+				q.options [j] = eachLine [j + 2];
+			}
+			questions [i] = q;
+		}
+	}
+
+	/*public void chooseQuestionSet(int startIndex, int endIndex){
+		for (int i = startIndex; i < endIndex; i++) {
+			
+		}
+	}*/
+
+	void SetCurrentQuestion(int questionIndex){
+		Question q = questions [questionIndex];
+		questionText.text = q.question;
+		for (int i = 0; i < q.optionNumber; i++) {
+			GameObject option = Instantiate (questionOption);
+			option.transform.Find ("Button Layer").transform.Find ("Button Text").transform.GetComponent<Text> ().text = q.options [i];
+			option.transform.SetParent (GameObject.Find ("Option Panel").transform);
+		}
     }
 
     IEnumerator TransitionToNextQuestion() {
@@ -60,26 +89,12 @@ public class GameManager : MonoBehaviour {
 
     public void UserSelectTrue() {
         animator.SetTrigger("True");
-        if (currentQuestion.isTrue) {
-            Debug.Log("CORRECT!");
-        }
-        else {
-            Debug.Log("WRONG@");
-        }
         StartCoroutine(TransitionToNextQuestion());
  
     }
 
     public void UserSelectFalse(){
         animator.SetTrigger("False");
-        if (!currentQuestion.isTrue)
-        {
-            Debug.Log("CORRECT!");
-        }
-        else
-        {
-            Debug.Log("WRONG@");
-        }
         StartCoroutine(TransitionToNextQuestion());
     }
 }
