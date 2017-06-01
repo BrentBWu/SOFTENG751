@@ -13,8 +13,8 @@ public class TaskPool : MonoBehaviour {
 		new Color32(195,190,240,255), new Color32(95,189,197,255), new Color32(252,138,21,255), new Color32(216,217,92,255), new Color32(204,168,233,255) };
 
 	void Start(){
-		LoadTask (GameObject.Find("Canvas").GetComponent<ResourceManage>().getGame(0));
-		//GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(GameObject.Find("Canvas").GetComponent<ResourceManage>().getGame(0));
+		//LoadTask (GameObject.Find("ResourceManager").GetComponent<ResourceManage>().getGame(0));
+		GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(GameObject.Find("ResourceManager").GetComponent<ResourceManage>().getGame(0));
 	}
 		
 

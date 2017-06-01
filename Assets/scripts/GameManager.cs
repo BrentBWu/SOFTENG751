@@ -7,18 +7,23 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+	[System.Serializable]
+	public class Question
+	{
+		public int optionNumber;
+		public string question;
+		public string[] options;
+		public int correctAnswerIndex;
+
+	}
+
     public Question[] questions;
     private static List<Question> unansweredQuestions;
     private Question currentQuestion;
-
-    [SerializeField]
-    private Text factText;
-
-    [SerializeField]
-    private Text trueAnswerText;
-
-    [SerializeField]
-    private Text falseAnswerText;
+	public Text questionText;
+	public GameObject questionOption;
+	public int startIndex, endIndex, currentIndex;
+	public GameObject nextButton;
 
     [SerializeField]
     private float timeBetweenQuestions = 1f;
@@ -28,26 +33,50 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (unansweredQuestions == null || unansweredQuestions.Count == 0) {
+		loadQuiz ();
+		this.startIndex = GameObject.Find ("ResourceManager").GetComponent<ResourceManage> ().startIndex;
+		this.endIndex = GameObject.Find ("ResourceManager").GetComponent<ResourceManage> ().endIndex;
+		this.currentIndex = startIndex;
+		setCurrentQuestion (currentIndex);
+        /*if (unansweredQuestions == null || unansweredQuestions.Count == 0) {
             unansweredQuestions = questions.ToList<Question>();
-        }
-        SetCurrentQuestion();
-        Debug.Log(currentQuestion.fact + " is " + currentQuestion.isTrue);
+        }*/
+        //SetCurrentQuestion();
     }
 
-    void SetCurrentQuestion(){
-        int randomQuestionIndex = Random.Range(0, unansweredQuestions.Count);
-        currentQuestion = unansweredQuestions[randomQuestionIndex];
-        factText.text = currentQuestion.fact;
-        if (currentQuestion.isTrue)
-        {
-            trueAnswerText.text = "CORRECT";
-            falseAnswerText.text = "WRONG";
-        }
-        else {
-            trueAnswerText.text = "WRONG";
-            falseAnswerText.text = "CORRECT";
-        }
+	void loadQuiz(){
+		TextAsset[] quizs = GameObject.Find ("ResourceManager").GetComponent<ResourceManage> ().getQuiz ();
+		questions = new Question[quizs.Length];
+		for (int i = 0; i < quizs.Length; i++) {
+			string wholeFile = quizs[i].text;
+			List<string> eachLine = new List<string>();
+			eachLine.AddRange (wholeFile.Split ("\n" [0]));
+
+			Question q = new Question ();
+
+			q.optionNumber = int.Parse (eachLine [0].Trim());
+			q.question = eachLine [1];
+			q.options = new string[int.Parse (eachLine [0])];
+			q.correctAnswerIndex = int.Parse(eachLine [int.Parse (eachLine [0]) + 2]);
+			for (int j = 0; j < q.optionNumber; j++) {
+				q.options [j] = eachLine [j + 2];
+			}
+			questions [i] = q;
+		}
+	}
+
+	public void chooseQuestionSet(int startIndex, int endIndex){
+		
+	}
+
+	void setCurrentQuestion(int questionIndex){
+		currentQuestion = questions [questionIndex];
+		questionText.text = currentQuestion.question;
+		for (int i = 0; i < currentQuestion.optionNumber; i++) {
+			GameObject option = Instantiate (questionOption);
+			option.transform.Find ("Button Layer").transform.Find ("Button Text").transform.GetComponent<Text> ().text = currentQuestion.options [i];
+			option.transform.SetParent (GameObject.Find ("Option Panel").transform);
+		}
     }
 
     IEnumerator TransitionToNextQuestion() {
@@ -58,28 +87,33 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void UserSelectTrue() {
-        animator.SetTrigger("True");
-        if (currentQuestion.isTrue) {
-            Debug.Log("CORRECT!");
-        }
-        else {
-            Debug.Log("WRONG@");
-        }
-        StartCoroutine(TransitionToNextQuestion());
- 
-    }
+	public void checkAnswer(){
+		foreach (Transform child in GameObject.Find("Option Panel").transform) {
+			//Check the correctness of chosen option
+			if (child.transform.GetComponent<Option> ().chose) {
+				if (child.GetSiblingIndex() == currentQuestion.correctAnswerIndex) {
+					child.Find ("Button Layer").Find ("Button Text").transform.GetComponent<Text> ().color = new Color (0, 255, 0);
+				} else {
+					child.Find ("Button Layer").Find ("Button Text").transform.GetComponent<Text> ().color = new Color (255, 0, 0);
+				}
+				break;
+			}
+		}
 
-    public void UserSelectFalse(){
-        animator.SetTrigger("False");
-        if (!currentQuestion.isTrue)
-        {
-            Debug.Log("CORRECT!");
-        }
-        else
-        {
-            Debug.Log("WRONG@");
-        }
-        StartCoroutine(TransitionToNextQuestion());
-    }
+		//Set text color of correct option
+		GameObject.Find ("Option Panel").transform.GetChild (currentQuestion.correctAnswerIndex).Find ("Button Layer").Find ("Button Text").transform.GetComponent<Text> ().color = new Color (0, 255, 0);
+		nextButton.gameObject.SetActive (true);
+	}
+
+	public void nextQuestion(){
+		if (currentIndex < endIndex) {
+			currentIndex++;
+			foreach (Transform child in GameObject.Find("Option Panel").transform) {
+				GameObject.Destroy (child.gameObject);
+			}
+			setCurrentQuestion (currentIndex);
+			nextButton.gameObject.SetActive (false);
+		}
+	}
+		
 }

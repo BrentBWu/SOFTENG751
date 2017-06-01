@@ -7,9 +7,17 @@ public class ResourceManage : MonoBehaviour {
 
 	public Object[] loader;
 	public TextAsset[] games;
+	public TextAsset[] quizs;
+	public int startIndex, endIndex, currentIndex;
 
 	// Use this for initialization
 	void Start () {
+		loadGame ();
+		loadQuiz ();
+		DontDestroyOnLoad (transform.gameObject);
+	}
+
+	void loadGame(){
 		loader = Resources.LoadAll("game", typeof(TextAsset));
 		games = new TextAsset[loader.Length];
 
@@ -22,4 +30,24 @@ public class ResourceManage : MonoBehaviour {
 		return games [index];
 	}
 
+	void loadQuiz(){
+		loader = Resources.LoadAll("quiz", typeof(TextAsset));
+		quizs = new TextAsset[loader.Length];
+
+		for(int i = 0; i < loader.Length; i++){
+			quizs [i] = (TextAsset)loader [i];
+		}
+	}
+
+	public TextAsset[] getQuiz(){
+		return quizs;
+	}
+
+	public void setQuizStartIndex(int startIndex){
+		this.startIndex = startIndex;
+	}
+
+	public void setQuizEndIndex(int endIndex){
+		this.endIndex = endIndex;
+	}
 }
