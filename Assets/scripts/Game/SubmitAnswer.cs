@@ -7,6 +7,7 @@ public class SubmitAnswer : MonoBehaviour {
 	public GameObject processorPool;
 	public GameObject taskPool;
 	public GameObject taskInfo;
+	public Text standardAnswer;
 	public Text submitButton;
 	bool submitted;
 	ProcessorPool pp;
@@ -24,7 +25,8 @@ public class SubmitAnswer : MonoBehaviour {
 			pp.transform.SetParent (GameObject.Find ("Panel Grider").transform);
 			pp.loadAnswer (GameObject.Find("ResourceManager").GetComponent<ResourceManage>().getGame(gameIndex));
 			taskPool.SetActive (false);
-			taskInfo.transform.SetAsLastSibling ();
+			taskInfo.transform.SetAsFirstSibling();
+			standardAnswer.gameObject.SetActive (true);
 			submitButton.text = "Try Again";
 			submitted = true;
 		} else {
@@ -33,6 +35,7 @@ public class SubmitAnswer : MonoBehaviour {
 			lockTask (false);
 			submitted = false;
 			submitButton.text = "Submit";
+			standardAnswer.gameObject.SetActive (false);
 		}
 
 	}
@@ -42,5 +45,9 @@ public class SubmitAnswer : MonoBehaviour {
 		foreach (GameObject task in GameObject.FindGameObjectsWithTag("Task")) {
 			task.transform.GetComponent<Task> ().answer = ans;
 		}
+	}
+
+	public void setStandardAnswer(int ansTime){
+		standardAnswer.text = "Answer: " + ansTime;
 	}
 }
