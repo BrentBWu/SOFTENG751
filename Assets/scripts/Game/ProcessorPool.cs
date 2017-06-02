@@ -14,14 +14,9 @@ public class ProcessorPool : MonoBehaviour {
 		new Color32(195,190,240,255), new Color32(95,189,197,255), new Color32(252,138,21,255), new Color32(216,217,92,255), new Color32(204,168,233,255) };
 
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-
 	//Find the processor has maximum time and set it to totalTime
-	public void calculateTime(){
-		int[] processorTimes = new int[4];
+	public void calculateTime(bool ans){
+		int[] processorTimes = new int[5];
 		int index = 0;
 		foreach (Transform child in transform) {
 			if (child.tag == "Processor") {
@@ -30,7 +25,12 @@ public class ProcessorPool : MonoBehaviour {
 			}
 		}
 
-		GameObject.Find ("TotalTime").GetComponent<Text> ().text = "Total time: " + Mathf.Max (processorTimes);
+		if (ans) {
+			GameObject.Find ("Canvas").GetComponent<SubmitAnswer> ().setStandardAnswer (Mathf.Max (processorTimes));
+		} else {
+			GameObject.Find ("TotalTime").GetComponent<Text> ().text = "Total time: " + Mathf.Max (processorTimes);
+		}
+
 	}
 
 	//Instantiate processor in processor pool
@@ -39,7 +39,6 @@ public class ProcessorPool : MonoBehaviour {
 			Instantiate (proccessor).transform.SetParent (this.transform);
 		}
 		totalTime = 0;
-		calculateTime ();
 	}
 
 	public void loadAnswer(TextAsset inputFile){
@@ -105,6 +104,9 @@ public class ProcessorPool : MonoBehaviour {
 			t.answer = true;
 			t.transform.SetParent (s.transform);
 		}
-			
+		foreach (GameObject p in GameObject.FindGameObjectsWithTag("Processor")) {
+			p.transform.GetComponent<Processor> ().calculateTotalTime ();
+		}
+		calculateTime (true);
 	}
 }

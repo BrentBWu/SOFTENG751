@@ -153,7 +153,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 			p.transform.GetComponent<Processor> ().calculateTotalTime ();
 		}
 
-		GameObject.Find ("Processor Pool").GetComponent<ProcessorPool> ().calculateTime ();
+		GameObject.Find ("Processor Pool").GetComponent<ProcessorPool> ().calculateTime (false);
 	}
 		
 }

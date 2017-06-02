@@ -15,7 +15,6 @@ public class TaskPool : MonoBehaviour {
 	void Start(){
 		int gameIndex = GameObject.Find ("ResourceManager").transform.GetComponent<ResourceManage> ().gameIndex;
 		LoadTask (GameObject.Find("ResourceManager").GetComponent<ResourceManage>().getGame(gameIndex));
-		//GameObject.Find ("Processor Pool").transform.GetComponent<ProcessorPool> ().loadAnswer(GameObject.Find("ResourceManager").GetComponent<ResourceManage>().getGame(0));
 	}
 		
 
