@@ -87,10 +87,10 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         // prev and next buttons
         if (nextButton)
-            nextButton.GetComponent<Button>().onClick.AddListener(() => { NextScreen(); });
+			nextButton.GetComponent<Button>().onClick.AddListener(() => { NextScreen(false); });
 
         if (prevButton)
-            prevButton.GetComponent<Button>().onClick.AddListener(() => { PreviousScreen(); });
+            prevButton.GetComponent<Button>().onClick.AddListener(() => { PreviousScreen(false); });
 	}
 
     //------------------------------------------------------------------------
@@ -173,14 +173,14 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     }
 
     //------------------------------------------------------------------------
-    private void SetPage(int aPageIndex) {
+	private void SetPage(int aPageIndex) {
         aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
         _container.anchoredPosition = _pagePositions[aPageIndex];
         _currentPage = aPageIndex;
     }
 
     //------------------------------------------------------------------------
-    private void LerpToPage(int aPageIndex) {
+	public void LerpToPage(int aPageIndex) {
         aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
         _lerpTo = _pagePositions[aPageIndex];
         _lerp = true;
@@ -213,7 +213,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     }
 
     //------------------------------------------------------------------------
-    private void SetPageSelection(int aPageIndex) {
+	private void SetPageSelection(int aPageIndex) {
         // nothing to change
         if (_previousPageSelectionIndex == aPageIndex) {
             return;
@@ -233,9 +233,11 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     }
 
     //------------------------------------------------------------------------
-    private void NextScreen() {
+	private void NextScreen(bool swipe) {
         LerpToPage(_currentPage + 1);
-		syncScroll.GetComponent<ScrollSnapRect> ().syncNextScreen ();
+		if (swipe) {
+			syncScroll.GetComponent<ScrollSnapRect> ().syncNextScreen ();
+		}
     }
 
 	public void syncNextScreen(){
@@ -243,9 +245,12 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 	}
 
     //------------------------------------------------------------------------
-    private void PreviousScreen() {
+	private void PreviousScreen(bool swipe) {
         LerpToPage(_currentPage - 1);
-		syncScroll.GetComponent<ScrollSnapRect> ().syncPreviousScreen();
+		if (swipe) {
+			syncScroll.GetComponent<ScrollSnapRect> ().syncPreviousScreen();
+		}
+
     }
 
 	public void syncPreviousScreen(){
@@ -294,9 +299,9 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
             Mathf.Abs(difference) > fastSwipeThresholdDistance &&
             Mathf.Abs(difference) < _fastSwipeThresholdMaxLimit) {
             if (difference > 0) {
-                NextScreen();
+				NextScreen(true);
             } else {
-                PreviousScreen();
+                PreviousScreen(true);
             }
         } else {
             // if not fast time, look to which page we got to
