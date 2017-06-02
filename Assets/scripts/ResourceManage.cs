@@ -11,7 +11,7 @@ public class ResourceManage : MonoBehaviour {
 	public TextAsset[] quizs;
 	public TextAsset[] theories;
 	public Sprite[] slides;
-	public int startIndex, endIndex, currentIndex;
+	public int startIndex, endIndex;
 	public int gameIndex;
 	public int leactureStartIndex, lectureEndIndex;
 

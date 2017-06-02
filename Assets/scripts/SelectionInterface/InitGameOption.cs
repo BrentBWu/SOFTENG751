@@ -15,7 +15,6 @@ public class InitGameOption : MonoBehaviour {
 			GameObject option = Instantiate (gameOption);
 			option.transform.SetParent (transform);
 			option.transform.Find ("Text").GetComponent<Text> ().text = t.name;
-			Debug.Log (option.transform.GetSiblingIndex ());
 			option.GetComponent<Button>().onClick.AddListener (() => { 
 				GameObject.Find ("ResourceManager").GetComponent<ResourceManage> ().setGameIndex(option.transform.GetSiblingIndex());
 			});

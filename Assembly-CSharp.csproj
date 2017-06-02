@@ -104,6 +104,7 @@
      <Compile Include="Assets\scripts\Quiz\Option.cs" />
      <Compile Include="Assets\scripts\ResourceManage.cs" />
      <Compile Include="Assets\scripts\SelectionInterface\InitGameOption.cs" />
+     <Compile Include="Assets\scripts\SelectionInterface\InitQuizOption.cs" />
      <None Include="Assets\resources\theory\_04.txt" />
      <None Include="Assets\resources\theory\_02.txt" />
      <None Include="Assets\resources\game\nodes.txt" />
