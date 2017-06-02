@@ -13,7 +13,7 @@ public class ResourceManage : MonoBehaviour {
 	public Sprite[] slides;
 	public int startIndex, endIndex;
 	public int gameIndex;
-	public int leactureStartIndex, lectureEndIndex;
+	public int lectureStartIndex, lectureEndIndex;
 
 	// Use this for initialization
 	void Start () {
@@ -63,7 +63,13 @@ public class ResourceManage : MonoBehaviour {
 	}
 
 	public Sprite[] getSlide(){
-		return slides;
+		Sprite[] returnSlide = new Sprite[lectureEndIndex - lectureStartIndex + 1];
+		int j = 0;
+		for (int i = lectureStartIndex; i < lectureEndIndex + 1; i++) {
+			returnSlide [j] = slides [i];
+			j++;
+		}
+		return returnSlide;
 	}
 
 	//Load quiz data from resource/theroy
@@ -77,7 +83,13 @@ public class ResourceManage : MonoBehaviour {
 	}
 
 	public TextAsset[] getTheory(){
-		return theories;
+		TextAsset[] returnTheory = new TextAsset[lectureEndIndex - lectureStartIndex + 1];
+		int j = 0;
+		for (int i = lectureStartIndex; i < lectureEndIndex + 1; i++) {
+			returnTheory  [j] = theories[i];
+			j++;
+		}
+		return returnTheory ;
 	}
 		
 
@@ -93,6 +105,12 @@ public class ResourceManage : MonoBehaviour {
 	//Set the game to be instantiate
 	public void setGameIndex(int gameIndex){
 		this.gameIndex = gameIndex;
+	}
+
+	//Set the lecture to be instantiate
+	public void setLectureIndex(int startIndex, int endIndex){
+		this.lectureStartIndex = startIndex;
+		this.lectureEndIndex = endIndex;
 	}
 		
 }
