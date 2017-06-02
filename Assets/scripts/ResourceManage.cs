@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ResourceManage : MonoBehaviour {
 
@@ -93,4 +94,5 @@ public class ResourceManage : MonoBehaviour {
 	public void setGameIndex(int gameIndex){
 		this.gameIndex = gameIndex;
 	}
+		
 }
