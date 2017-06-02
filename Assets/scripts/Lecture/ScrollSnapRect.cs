@@ -114,13 +114,6 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
                 SetPageSelection(GetNearestPage());
             }
         }
-		/*
-		if (!_dragging) {
-			GetComponent<ScrollRect> ().horizontalNormalizedPosition = syncScroll.horizontalNormalizedPosition;
-			Debug.Log (transform.name + "Off drag");
-		} else {
-			Debug.Log (transform.name + "On drag");
-		}*/
 
     }
 
@@ -185,6 +178,9 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         _lerpTo = _pagePositions[aPageIndex];
         _lerp = true;
         _currentPage = aPageIndex;
+		if (aPageIndex == _pageCount - 1) {
+			GameObject.Find ("Theroy").GetComponent<EndScrollRect> ().enableButton (true);
+		}
     }
 
     //------------------------------------------------------------------------
