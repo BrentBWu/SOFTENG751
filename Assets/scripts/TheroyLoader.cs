@@ -7,7 +7,7 @@ public class TheroyLoader : MonoBehaviour {
 	public GameObject theoryField;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		TextAsset[] theories = GameObject.Find ("ResourceManager").transform.GetComponent<ResourceManage> ().getTheory ();
 		foreach (TextAsset t in theories) {
 			GameObject tf = Instantiate (theoryField);

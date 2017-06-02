@@ -52,7 +52,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 				bool inProcessor = transform.parent.transform.parent.transform == processor.transform;
 
 				//Instantiate duration
-				if(hasDep && !inProcessor && depPro.transform != processor.GetComponent<Processor>().transform){
+				if(hasDep && !inProcessor && depPro.transform != processor.GetComponent<Processor>().transform && !transform.GetComponent<Task>().answer){
 					//Calculate duration length
 					int durWeight = depEndTime - processor.GetComponent<Processor>().calculateTotalTime();
 					if (durWeight > 0) {

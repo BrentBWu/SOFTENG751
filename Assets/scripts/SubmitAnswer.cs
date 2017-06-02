@@ -18,6 +18,7 @@ public class SubmitAnswer : MonoBehaviour {
 
 	public void submit(){
 		if (!submitted) {
+			lockTask (true);
 			int gameIndex = GameObject.Find ("ResourceManager").transform.GetComponent<ResourceManage> ().gameIndex;
 			pp = Instantiate (processorPool).GetComponent<ProcessorPool>();
 			pp.transform.SetParent (GameObject.Find ("Panel Grider").transform);
@@ -29,9 +30,17 @@ public class SubmitAnswer : MonoBehaviour {
 		} else {
 			Destroy (pp.gameObject);
 			taskPool.SetActive (true);
+			lockTask (false);
 			submitted = false;
 			submitButton.text = "Submit";
 		}
 
+	}
+
+	//Disable or enable the intraction with tasks
+	public void lockTask(bool ans){
+		foreach (GameObject task in GameObject.FindGameObjectsWithTag("Task")) {
+			task.transform.GetComponent<Task> ().answer = ans;
+		}
 	}
 }
