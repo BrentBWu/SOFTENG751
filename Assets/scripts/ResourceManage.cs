@@ -14,7 +14,7 @@ public class ResourceManage : MonoBehaviour {
 	public int startIndex, endIndex;
 	public int gameIndex;
 	public int lectureStartIndex, lectureEndIndex;
-	public bool innerLecture;
+	public bool innerLecture, gameInclude, quizInclude;
 
 	// Use this for initialization
 	void Start () {
@@ -114,6 +114,11 @@ public class ResourceManage : MonoBehaviour {
 	public void setLectureIndex(int startIndex, int endIndex){
 		this.lectureStartIndex = startIndex;
 		this.lectureEndIndex = endIndex;
+	}
+
+	public void setIncludeSection(bool gameInclude, bool quizInclude){
+		this.gameInclude = gameInclude;
+		this.quizInclude = quizInclude;
 	}
 		
 }

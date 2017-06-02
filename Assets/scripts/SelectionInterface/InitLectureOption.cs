@@ -8,6 +8,7 @@ public class InitLectureOption : MonoBehaviour {
 	public int lectureEndIndex;
 	public int gameIndex;
 	public int quizStartIndex, quizEndIndex;
+	public bool gameInclude, quizInclude;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,9 @@ public class InitLectureOption : MonoBehaviour {
 		});
 		transform.GetComponent<Button>().onClick.AddListener (() => { 
 			GameObject.Find ("ResourceManager").GetComponent<ResourceManage>().setQuizEndIndex(quizEndIndex);
+		});
+		transform.GetComponent<Button>().onClick.AddListener (() => { 
+			GameObject.Find ("ResourceManager").GetComponent<ResourceManage>().setIncludeSection(gameInclude, quizInclude);
 		});
 		transform.GetComponent<Button> ().onClick.AddListener (() => {
 			GameObject.Find ("Main Camera").GetComponent<LoadScene> ().loadScene ("Lecture");
