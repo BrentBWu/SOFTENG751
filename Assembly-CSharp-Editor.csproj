@@ -55,13 +55,17 @@
      <Compile Include="Assets\MaterialUI\Editor\ShadowGenEditor.cs" />
      <Compile Include="Assets\MaterialUI\Editor\SnapButtonToTextEditor.cs" />
      <Compile Include="Assets\MaterialUI\Editor\TexturePostProcessor.cs" />
+     <None Include="Assets\resources\theory\_04.txt" />
+     <None Include="Assets\resources\theory\_02.txt" />
      <None Include="Assets\resources\game\nodes.txt" />
      <None Include="Assets\resources\quiz\_05.txt" />
      <None Include="Assets\resources\quiz\_01.txt" />
      <None Include="Assets\MaterialUI\Fonts\NOTICE.txt" />
+     <None Include="Assets\resources\theory\_03.txt" />
      <None Include="Assets\resources\quiz\_03.txt" />
      <None Include="Assets\resources\quiz\_02.txt" />
      <None Include="Assets\resources\quiz\_04.txt" />
+     <None Include="Assets\resources\theory\_01.txt" />
  <Reference Include="Facebook.Unity.Settings">
  <HintPath>C:/Users/jeffm/SOFTENG751/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
  </Reference>
