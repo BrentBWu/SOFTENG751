@@ -7,7 +7,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(Mask))]
 [RequireComponent(typeof(ScrollRect))]
-public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler {
+public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler{
 
     [Tooltip("Set starting page index - starting from 0")]
     public int startingPage = 0;
@@ -27,6 +27,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     public Sprite selectedPage;
     [Tooltip("Container with page images (optional)")]
     public Transform pageSelectionIcons;
+	public ScrollRect syncScroll;
 
     // fast swipes should be fast and short. If too long, then it is not fast swipe
     private int _fastSwipeThresholdMaxLimit;
@@ -86,10 +87,10 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
         // prev and next buttons
         if (nextButton)
-            nextButton.GetComponent<Button>().onClick.AddListener(() => { NextScreen(); });
+			nextButton.GetComponent<Button>().onClick.AddListener(() => { NextScreen(false); });
 
         if (prevButton)
-            prevButton.GetComponent<Button>().onClick.AddListener(() => { PreviousScreen(); });
+            prevButton.GetComponent<Button>().onClick.AddListener(() => { PreviousScreen(false); });
 	}
 
     //------------------------------------------------------------------------
@@ -113,6 +114,14 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
                 SetPageSelection(GetNearestPage());
             }
         }
+		/*
+		if (!_dragging) {
+			GetComponent<ScrollRect> ().horizontalNormalizedPosition = syncScroll.horizontalNormalizedPosition;
+			Debug.Log (transform.name + "Off drag");
+		} else {
+			Debug.Log (transform.name + "On drag");
+		}*/
+
     }
 
     //------------------------------------------------------------------------
@@ -164,14 +173,14 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     }
 
     //------------------------------------------------------------------------
-    private void SetPage(int aPageIndex) {
+	private void SetPage(int aPageIndex) {
         aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
         _container.anchoredPosition = _pagePositions[aPageIndex];
         _currentPage = aPageIndex;
     }
 
     //------------------------------------------------------------------------
-    private void LerpToPage(int aPageIndex) {
+	public void LerpToPage(int aPageIndex) {
         aPageIndex = Mathf.Clamp(aPageIndex, 0, _pageCount - 1);
         _lerpTo = _pagePositions[aPageIndex];
         _lerp = true;
@@ -204,7 +213,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     }
 
     //------------------------------------------------------------------------
-    private void SetPageSelection(int aPageIndex) {
+	private void SetPageSelection(int aPageIndex) {
         // nothing to change
         if (_previousPageSelectionIndex == aPageIndex) {
             return;
@@ -224,14 +233,29 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     }
 
     //------------------------------------------------------------------------
-    private void NextScreen() {
+	private void NextScreen(bool swipe) {
         LerpToPage(_currentPage + 1);
+		if (swipe) {
+			syncScroll.GetComponent<ScrollSnapRect> ().syncNextScreen ();
+		}
     }
 
+	public void syncNextScreen(){
+		LerpToPage(_currentPage + 1);
+	}
+
     //------------------------------------------------------------------------
-    private void PreviousScreen() {
+	private void PreviousScreen(bool swipe) {
         LerpToPage(_currentPage - 1);
+		if (swipe) {
+			syncScroll.GetComponent<ScrollSnapRect> ().syncPreviousScreen();
+		}
+
     }
+
+	public void syncPreviousScreen(){
+		LerpToPage(_currentPage - 1);
+	}
 
     //------------------------------------------------------------------------
     private int GetNearestPage() {
@@ -251,7 +275,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
         return nearestPage;
     }
-
+		
     //------------------------------------------------------------------------
     public void OnBeginDrag(PointerEventData aEventData) {
         // if currently lerping, then stop it as user is draging
@@ -275,9 +299,9 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
             Mathf.Abs(difference) > fastSwipeThresholdDistance &&
             Mathf.Abs(difference) < _fastSwipeThresholdMaxLimit) {
             if (difference > 0) {
-                NextScreen();
+				NextScreen(true);
             } else {
-                PreviousScreen();
+                PreviousScreen(true);
             }
         } else {
             // if not fast time, look to which page we got to
