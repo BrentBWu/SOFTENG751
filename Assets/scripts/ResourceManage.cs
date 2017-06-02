@@ -14,6 +14,7 @@ public class ResourceManage : MonoBehaviour {
 	public int startIndex, endIndex;
 	public int gameIndex;
 	public int lectureStartIndex, lectureEndIndex;
+	public bool innerLecture;
 
 	// Use this for initialization
 	void Start () {
@@ -21,7 +22,9 @@ public class ResourceManage : MonoBehaviour {
 		loadQuiz ();
 		loadSilde ();
 		loadTheory ();
-		DontDestroyOnLoad (transform.gameObject);
+		if (GameObject.FindGameObjectsWithTag ("ResourceManager").Length < 2) {
+			DontDestroyOnLoad (transform.gameObject);
+		}
 	}
 
 	//Load game data from resource/game

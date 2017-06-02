@@ -88,6 +88,7 @@
      <Compile Include="Assets\MaterialUI\Scripts\Toaster.cs" />
      <Compile Include="Assets\MaterialUI\Scripts\ToggleConfig.cs" />
      <Compile Include="Assets\MaterialUI\Scripts\ToggleTextChanger.cs" />
+     <Compile Include="Assets\scripts\BackButton.cs" />
      <Compile Include="Assets\scripts\Game\DragHandler.cs" />
      <Compile Include="Assets\scripts\Game\FlowLayoutGroup.cs" />
      <Compile Include="Assets\scripts\Game\Processor.cs" />
@@ -96,6 +97,7 @@
      <Compile Include="Assets\scripts\Game\SubmitAnswer.cs" />
      <Compile Include="Assets\scripts\Game\Task.cs" />
      <Compile Include="Assets\scripts\Game\TaskPool.cs" />
+     <Compile Include="Assets\scripts\Lecture\EndScrollRect.cs" />
      <Compile Include="Assets\scripts\Lecture\InitPageSection.cs" />
      <Compile Include="Assets\scripts\Lecture\ScrollSnapRect.cs" />
      <Compile Include="Assets\scripts\Lecture\SlideLoader.cs" />

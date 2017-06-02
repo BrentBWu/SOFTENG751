@@ -17,7 +17,6 @@ public class InitPageSection : MonoBehaviour {
 				setPage();
 			});
 		}
-		Debug.Log (pageNum);
 	}
 
 	void setPage(){

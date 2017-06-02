@@ -18,6 +18,9 @@ public class InitGameOption : MonoBehaviour {
 			option.GetComponent<Button>().onClick.AddListener (() => { 
 				GameObject.Find ("ResourceManager").GetComponent<ResourceManage> ().setGameIndex(option.transform.GetSiblingIndex());
 			});
+			option.GetComponent<Button>().onClick.AddListener (() => { 
+				GameObject.Find ("ResourceManager").GetComponent<ResourceManage>().innerLecture = false;
+			});
 			option.GetComponent<Button> ().onClick.AddListener (() => {
 				GameObject.Find ("Main Camera").GetComponent<LoadScene> ().loadScene ("Game");
 			});
