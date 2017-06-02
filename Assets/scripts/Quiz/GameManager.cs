@@ -38,10 +38,6 @@ public class GameManager : MonoBehaviour {
 		this.endIndex = GameObject.Find ("ResourceManager").GetComponent<ResourceManage> ().endIndex;
 		this.currentIndex = startIndex;
 		setCurrentQuestion (currentIndex);
-        /*if (unansweredQuestions == null || unansweredQuestions.Count == 0) {
-            unansweredQuestions = questions.ToList<Question>();
-        }*/
-        //SetCurrentQuestion();
     }
 
 	void loadQuiz(){
@@ -63,10 +59,6 @@ public class GameManager : MonoBehaviour {
 			}
 			questions [i] = q;
 		}
-	}
-
-	public void chooseQuestionSet(int startIndex, int endIndex){
-		
 	}
 
 	void setCurrentQuestion(int questionIndex){
@@ -102,7 +94,9 @@ public class GameManager : MonoBehaviour {
 
 		//Set text color of correct option
 		GameObject.Find ("Option Panel").transform.GetChild (currentQuestion.correctAnswerIndex).Find ("Button Layer").Find ("Button Text").transform.GetComponent<Text> ().color = new Color (0, 255, 0);
-		nextButton.gameObject.SetActive (true);
+		if (currentIndex < endIndex) {
+			nextButton.gameObject.SetActive (true);
+		}
 	}
 
 	public void nextQuestion(){
