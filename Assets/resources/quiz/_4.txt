@@ -1,0 +1,5 @@
+2
+Unrolling is an optimization technique that attempts to optimize a program's execution speed at the expense of its size. 
+True
+False
+0

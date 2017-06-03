@@ -1,14 +1,12 @@
 ﻿<Properties RefactoringSettings.EnableRefactorings="True" StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\Game\ProcessorPool.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\resources\quiz\_1.txt">
     <Files>
-      <File FileName="Assets\scripts\Game\Task.cs" Line="1" Column="1" />
-      <File FileName="Assets\scripts\Game\TaskPool.cs" Line="37" Column="56" />
-      <File FileName="Assets\scripts\Game\Slot.cs" Line="36" Column="129" />
-      <File FileName="Assets\scripts\Game\Processor.cs" Line="27" Column="13" />
-      <File FileName="Assets\scripts\Game\DragHandler.cs" Line="156" Column="89" />
-      <File FileName="Assets\scripts\Game\ProcessorPool.cs" Line="107" Column="72" />
-      <File FileName="Assets\scripts\Game\SubmitAnswer.cs" Line="28" Column="43" />
+      <File FileName="Assets\scripts\Game\Slot.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\Game\Processor.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\Game\DragHandler.cs" Line="141" Column="38" />
+      <File FileName="Assets\scripts\Game\SubmitAnswer.cs" Line="1" Column="1" />
+      <File FileName="Assets\resources\quiz\_1.txt" Line="5" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -1,0 +1,3 @@
+Like task scheduling, there are two kinds of loop scheduling.
+-Without dependences
+-with dependences

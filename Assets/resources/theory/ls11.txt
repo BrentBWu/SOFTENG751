@@ -1,0 +1,2 @@
+Loop shifting(retiming)
+Convert inter iteration dependence into intra iteration dependence.

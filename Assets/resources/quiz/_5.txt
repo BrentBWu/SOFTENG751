@@ -1,0 +1,5 @@
+2
+For retiming, the moved instruction is replaced by different instruction from the next iteration. 
+True
+False
+0

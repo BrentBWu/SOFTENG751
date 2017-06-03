@@ -1,0 +1,2 @@
+The moved instruction is replaced by the same instruction from the next iteration.
+Thus, iteration of the last set of instruction is done after the loop ends.

@@ -8,6 +8,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	public static GameObject itemBeingDragged;
 	Vector3 startPos;
 	Transform startParent;
+	bool slotInit;
 
 
 	#region IBeginDragHandler implementation
@@ -17,6 +18,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		startPos = transform.position;
 		startParent = transform.parent;
 		GetComponent<CanvasGroup> ().blocksRaycasts = false;
+		slotInit = false;
 
 		//Display Task info
 		GameObject.Find ("TaskName").GetComponent<Text> ().text = "Task: " + transform.GetComponent<Task> ().taskName;
@@ -73,6 +75,7 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 				bool isTaskpool = transform.parent.GetComponent<Slot> ().isTaskPool;
 
 				if ((isTaskSlot || !isTaskpool) && !inProcessor && !transform.GetComponent<Task>().answer) {
+					slotInit = true;
 					processor.transform.GetComponent<Processor> ().createTaskSlot (transform.GetComponent<Task> ().weight);
 				}
 			}
@@ -138,8 +141,9 @@ public class DragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 		}
 
 		//Destroy unused duration
-		if(!transform.GetComponent<Task>().answer){
+		if(!transform.GetComponent<Task>().answer && slotInit){
 			foreach(GameObject dur in GameObject.FindGameObjectsWithTag("Duration")){
+				Debug.Log (transform.parent.GetComponent<Slot> ().active);
 				if (dur.transform.parent != transform.parent.transform.parent && dur.transform.GetSiblingIndex() == 1 && 
 					(transform.parent.GetComponent<Slot> ().active && transform.parent.GetComponent<Slot> ().depFree)) {
 					Destroy (dur);

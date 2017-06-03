@@ -1,0 +1,2 @@
+Loop is represented as flow graph (directed cyclic graph)
+Compared to task graph, they are quite similar.

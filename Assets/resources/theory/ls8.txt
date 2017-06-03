@@ -1,0 +1,3 @@
+Schedule loop body —— 
+treat loop body as task graph
+remove edges with delay > 0

@@ -1,0 +1,2 @@
+Software pipelining —— use principle of processor pipelining
+For example: a and d of different iterations do not depend on each other

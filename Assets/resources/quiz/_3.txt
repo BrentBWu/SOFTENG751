@@ -1,0 +1,5 @@
+2
+For flow graph, edge weight indicates dependence distance. 
+True
+False
+0
