@@ -1,0 +1,2 @@
+Task scheduling-without dependences
+Given a set of n independent tasks, where task i has execution time wi, and p processors

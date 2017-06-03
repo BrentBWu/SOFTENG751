@@ -1,0 +1,2 @@
+Task shceduling with dependence
+Given a task graph G=(V,E,w,c) and p processors and the goal is to find valid schedule for the |V| tasks on the p processors that has the earliest finish time.

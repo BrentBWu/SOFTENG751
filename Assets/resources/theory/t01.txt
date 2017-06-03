@@ -1,0 +1,2 @@
+What is task scheduling? 
+Map and schedule subtasks onto processors to achieve shortest possible execution time.

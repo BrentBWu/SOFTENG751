@@ -1,0 +1,4 @@
+Improving heuristic:
+Order tasks in decreasing size
+-better load balancing at the end
+-size of all tasks must be known

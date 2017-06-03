@@ -1,0 +1,2 @@
+Is this the optimal solution?
+The key point of independent task scheduling is Schedule each task on processor that allows its earliest start time.

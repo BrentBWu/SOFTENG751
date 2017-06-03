@@ -1,0 +1,1 @@
+Using DAG(directed acyclic graph) can make the work visual and understandable.

@@ -1,0 +1,6 @@
+Improving heuristic
+1. Order nodes of DAG according to a priority, while
+respecting their dependences
+2. Iterate over node list from 1.) and schedule every node
+to the processor that allows its earliest start time.
+- Processor and precedence constraints must be considered
