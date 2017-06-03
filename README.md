@@ -5,7 +5,7 @@ This is the repository containing the project for SOFTENG751 project. The reposi
 Clone the code or download the package version, then build the application following normal Unity Build instructions.
 
 # Execution instructions
-If you have downloaed the .exe version, simply execute the file.
+If you have downloaed the build version, exectue the SOFTENG751.exe to run the application.
 If you have downloaded the sorce file, build the application in Unity3D following normal Unity Build instructions. Build the application in Unity3D version 5.6.1 is recommended
 
 # Adding Extra Content
